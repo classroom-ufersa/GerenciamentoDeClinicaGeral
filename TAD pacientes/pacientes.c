@@ -71,7 +71,7 @@ void removePaciente(Lista *lista)
     scanf(" %[^\n]", nome);
 
     if(lista->prox->paciente->nome == nome){
-        lista->
+        lista->prox = lista->prox->prox;
     }
 
     Lista *ant = NULL;
