@@ -34,15 +34,7 @@ void listMedicos(Medico *medico)
     printf("Disponibilidade: %s\n", medico->disponibilidade);
 }
 
-Lista *criaListaMedicos(void)
-{
-    return NULL;
-}
 
-int lst_vazia(Lista *l)
-{
-    return (l == NULL);
-}
 
 
 
