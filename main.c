@@ -19,7 +19,7 @@ int main(void)
     lista = addPaciente(paciente2, lista);
     lista = addPaciente(paciente3, lista);
     listPacientes(lista);
-    removePaciente(&lista);
+    removePaciente(lista);
     listPacientes(lista);
     editPaciente(lista);
     return 0;

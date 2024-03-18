@@ -62,16 +62,21 @@ Lista *addPaciente(Paciente *paciente, Lista *lista)
 }
 
 
-void removePaciente(Lista **lista)
-{
-    char nomePaciente[50];
+void removePaciente(Lista *lista)
+{   if(!lst_vazia(lista)){
+
+    char nome[50];
 
     printf("\n Informe o nome do paciente que deseja remover: ");
-    scanf(" %[^\n]", nomePaciente);
+    scanf(" %[^\n]", nome);
+
+    if(lista->prox->paciente->nome == nome){
+        lista->prox = lista->prox->prox;
+    }
 
     Lista *ant = NULL;
-    Lista *p = *lista;
-    while (p != NULL && strcmp(p->paciente->nome, nomePaciente) != 0)
+    Lista *p = lista;
+    while (p != NULL && strcmp(p->paciente->nome, nome) != 0)
     {
         ant = p;
         p = p->prox;
@@ -83,7 +88,7 @@ void removePaciente(Lista **lista)
     }
     if (ant == NULL)
     {
-        *lista = p->prox;
+        lista = p->prox;
     }
     else
     {
@@ -91,6 +96,11 @@ void removePaciente(Lista **lista)
     }
     free(p);
 }
+else{
+    printf("Lista vazia\n");
+}
+}
+
 void editPaciente(Lista *lista){
     char nome[50];
     int idade;
