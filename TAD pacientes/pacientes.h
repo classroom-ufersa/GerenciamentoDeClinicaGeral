@@ -23,7 +23,7 @@ Lista *addPaciente(Paciente *paciente, Lista *lista);
 /*  Funcao para remover paciente
     Recebe uma lista encadeada de pacientes
  */
-void removePaciente(Lista *lista);
+void removePaciente(Lista **lista);
 
 /*  funcao que edita o cadastro do paciente
     recebe uma lista encadeada de pacientes
