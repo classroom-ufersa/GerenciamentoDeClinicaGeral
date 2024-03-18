@@ -1,5 +1,22 @@
+#include "TAD pacientes/pacientes.c"
+
+
 /* TAD: Define um medico*/
 typedef struct medico Medico;
+
+/* TAD: Define uma lista de medicos*/
+typedef struct lista Lista;
+
+/* Funcao para criar uma lista 
+    de medicos*/
+Lista *criaListaMedicos(void);
+
+/* Funcao para verificar se a lista de medicos esta vazia
+    Recebe uma lista de medicos
+    Retorna 1 se a lista estiver vazia e 0 caso contrario
+*/
+int lst_vazia(Lista *l);
+
 
 /* Funcao para adicionar medico
    Recebe um nome, especialidade, paciente e disponibilidade de horario

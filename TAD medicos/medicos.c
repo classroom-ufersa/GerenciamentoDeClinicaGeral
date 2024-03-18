@@ -11,6 +11,11 @@ struct medico
     char disponibilidade[50];
 };
 
+struct lista {
+    Medico *medico;
+    Lista *prox;
+};
+
 Medico *addMedico(char *nome, char *especialidade, char *paciente, char *disponibilidade)
 {
     Medico *medico = (Medico *)malloc(sizeof(Medico));
@@ -26,6 +31,11 @@ Medico *addMedico(char *nome, char *especialidade, char *paciente, char *disponi
     return medico;
 }
 
+void removeMedico(Medico *medico)
+{
+    free(medico);
+}
+
 void listMedicos(Medico *medico)
 {
     printf("Nome: %s\n", medico->nome);
@@ -33,4 +43,16 @@ void listMedicos(Medico *medico)
     printf("Paciente: %s\n", medico->paciente);
     printf("Disponibilidade: %s\n", medico->disponibilidade);
 }
+
+Lista *criaListaMedicos(void)
+{
+    return NULL;
+}
+
+int lst_vazia(Lista *l)
+{
+    return (l == NULL);
+}
+
+
 
