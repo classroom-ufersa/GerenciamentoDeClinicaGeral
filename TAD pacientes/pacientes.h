@@ -21,21 +21,27 @@ Lista *criaLista(void);
 Lista *addPaciente(Paciente *paciente, Lista *lista);
 
 /*  Funcao para remover paciente
-    Recebe um paciente
+    Recebe uma lista encadeada de pacientes
  */
-void removePaciente(Paciente *paciente);
+void removePaciente(Lista *lista);
 
 /*  funcao que edita o cadastro do paciente
-    recebe um paciente, um nome, uma idade e uma doenca
+    recebe uma lista encadeada de pacientes
     retorna o paciente com as informacoes editadas
 */
-void editPaciente(Paciente *paciente, char *nome, int idade, char *doenca);
+void editPaciente(Lista *lista);
 
 /*  funcao que vai buscar paciente na lista
     recebe o nome do paciente e a lista
     retorna o paciente com o nome buscado
 */
 Lista *lst_busca(char nome, Lista *l);
+
+/* Funcao que verifica se a lista esta vazia
+   Recebe a lista
+   Retorna 1 se a lista estiver vazia e 0 se nao estiver
+*/
+int lst_vazia(Lista *l);
 
 /* Funcao que imprime a lista encadeda de pacientes
    Recebe a lista

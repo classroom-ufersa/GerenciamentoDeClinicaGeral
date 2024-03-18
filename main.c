@@ -13,7 +13,14 @@ int main(void)
 
     Lista *lista = criaLista();
     Paciente *paciente1 = preenchePaciente();
+    Paciente *paciente2 = preenchePaciente();
+    Paciente *paciente3 = preenchePaciente();
     lista = addPaciente(paciente1, lista);
+    lista = addPaciente(paciente2, lista);
+    lista = addPaciente(paciente3, lista);
     listPacientes(lista);
+    removePaciente(lista);
+    listPacientes(lista);
+    editPaciente(lista);
     return 0;
 }
