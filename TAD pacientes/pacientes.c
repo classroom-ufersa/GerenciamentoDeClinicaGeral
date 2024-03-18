@@ -38,6 +38,11 @@ Lista *criaLista(void)
     return NULL;
 }
 
+int lst_vazia(Lista *l)
+{
+    return (l == NULL);
+}
+
 Lista *addPaciente(Paciente *paciente, Lista *lista)
 {
     Lista *novo = (Lista *)malloc(sizeof(Lista));
@@ -51,10 +56,62 @@ Lista *addPaciente(Paciente *paciente, Lista *lista)
     return novo;
 }
 
+void removePaciente(Lista **lista)
+{
+    char nomePaciente[50];
 
+    printf("\n Informe o nome do paciente que deseja remover: ");
+    scanf(" %[^\n]", nomePaciente);
 
-void removePaciente(Paciente *paciente){
+    Lista *ant = NULL;
+    Lista *p = *lista;
+    while (p != NULL && strcmp(p->paciente->nome, nomePaciente) != 0)
+    {
+        ant = p;
+        p = p->prox;
+    }
+    if (p == NULL)
+    {
+        printf("Paciente nao encontrado \n");
+        return;
+    }
+    if (ant == NULL)
+    {
+        *lista = p->prox;
+    }
+    else
+    {
+        ant->prox = p->prox;
+    }
+    free(p);
+}
+void editPaciente(Lista *lista)
+{
+    char nome[50];
+    int idade;
+    char doenca[50];
 
+    printf("\n Informe o nome do paciente que deseja editar: ");
+    scanf(" %[^\n]", nome);
+
+    Lista *ant = NULL;
+    Lista *p = lista;
+    while (p != NULL && strcmp(p->paciente->nome, nome) != 0)
+    {
+        ant = p;
+        p = p->prox;
+    }
+    if (p == NULL)
+    {
+        printf("Paciente nao encontrado \n");
+        return;
+    }
+    printf("Digite o novo nome do paciente: ");
+    scanf(" %[^\n]", p->paciente->nome);
+    printf("Digite a nova idade do paciente: ");
+    scanf(" %d", &p->paciente->idade);
+    printf("Digite a nova doenca do paciente: ");
+    scanf(" %[^\n]", p->paciente->doenca);
 }
 
 void listPacientes(Lista *lista)

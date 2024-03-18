@@ -1,4 +1,4 @@
-/* TAD: Define um medico*/
+/*TAD: Define a estrutura medico*/
 typedef struct medico Medico;
 
 /* Funcao para adicionar medico

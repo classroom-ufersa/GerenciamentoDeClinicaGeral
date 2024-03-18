@@ -33,4 +33,3 @@ void listMedicos(Medico *medico)
     printf("Paciente: %s\n", medico->paciente);
     printf("Disponibilidade: %s\n", medico->disponibilidade);
 }
-
