@@ -10,13 +10,11 @@ struct paciente
     char doenca[50];
 };
 
-
 struct lista
 {
     Paciente *paciente;
     Lista *prox;
 };
-
 
 Paciente *preenchePaciente(void)
 {
@@ -35,18 +33,15 @@ Paciente *preenchePaciente(void)
     return paciente;
 }
 
-
 Lista *criaLista(void)
 {
     return NULL;
 }
 
-
 int lst_vazia(Lista *l)
 {
     return (l == NULL);
 }
-
 
 Lista *addPaciente(Paciente *paciente, Lista *lista)
 {
@@ -60,7 +55,6 @@ Lista *addPaciente(Paciente *paciente, Lista *lista)
     novo->prox = lista;
     return novo;
 }
-
 
 void removePaciente(Lista **lista)
 {
@@ -91,7 +85,8 @@ void removePaciente(Lista **lista)
     }
     free(p);
 }
-void editPaciente(Lista *lista){
+void editPaciente(Lista *lista)
+{
     char nome[50];
     int idade;
     char doenca[50];
