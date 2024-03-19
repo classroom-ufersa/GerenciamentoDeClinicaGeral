@@ -32,6 +32,10 @@ int main(void)
             listaMedicos = addMedicoLista(preencheMedico(), listaMedicos);
             break;
         case 2:
+            char nomeMedico[50];
+            printf("Digite o nome do medico que deseja remover: ");
+            scanf(" %[^\n]", nomeMedico);
+            removeMedico(nomeMedico, &listaMedicos);
             break;
         case 3:
             listaPacientes = addPaciente(preenchePaciente(), listaPacientes);
