@@ -1,19 +1,28 @@
-/*TAD: Define a estrutura medico*/
+#ifndef MEDICOS_H
+#define MEDICOS_H
+
+/* Definição da estrutura medico */
 typedef struct medico Medico;
 
-/* Funcao para adicionar medico
-   Recebe um nome, especialidade, paciente e disponibilidade de horario
- */
+/* Definição da estrutura listaMedicos */
+typedef struct listaMedicos ListaMedicos;
 
+/* Função para adicionar um médico */
 Medico *addMedico(char *nome, char *especialidade, char *paciente, char *disponibilidade);
 
-/*  Funcao para remover medico
-    Recebe um medico
- */
-void removeMedico(Medico *medico);
+/* Função para remover um médico da lista */
+void removeMedico(char *nome, ListaMedicos **lista);
 
-/*  funcao que lista medicos e seus respectivos clientes
-    recebe um medico
-    retorna a lista de medicos e seus respectivos clientes
-*/
-void listMedicos(Medico *medico);
+/* Função para listar os médicos */
+void listMedicos(ListaMedicos *lista);
+
+/* Função para criar uma lista de médicos */
+ListaMedicos *criaListaMedicos(void);
+
+/* Função para adicionar um médico à lista */
+ListaMedicos *addMedicoLista(Medico *medico, ListaMedicos *lista);
+
+/* Função para preencher os dados de um médico */
+Medico *preencheMedico(void);
+
+#endif /* MEDICOS_H */

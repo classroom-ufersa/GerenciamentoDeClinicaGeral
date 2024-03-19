@@ -35,7 +35,7 @@ void editPaciente(Lista *lista);
     recebe o nome do paciente e a lista
     retorna o paciente com o nome buscado
 */
-Lista *lst_busca(char nome, Lista *l);
+void buscaPaciente(Lista *lista);
 
 /* Funcao que verifica se a lista esta vazia
    Recebe a lista
