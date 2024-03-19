@@ -40,9 +40,12 @@ Lista *criaLista(void)
 
 int lst_vazia(Lista *l)
 {
-    if(l == NULL){
+    if (l == NULL)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
 }
@@ -88,11 +91,12 @@ void removePaciente(Lista **lista)
         ant->prox = p->prox;
     }
     free(p);
+    printf("Paciente removido com sucesso \n");
 }
 void editPaciente(Lista *lista)
 {
     char nome[50];
-
+    int opcao;
     printf("\n Informe o nome do paciente que deseja editar: ");
     scanf(" %[^\n]", nome);
 
@@ -108,20 +112,40 @@ void editPaciente(Lista *lista)
         printf("Paciente nao encontrado \n");
         return;
     }
-    printf("Digite o novo nome do paciente: ");
-    scanf(" %[^\n]", p->paciente->nome);
-    printf("Digite a nova idade do paciente: ");
-    scanf(" %d", &p->paciente->idade);
-    printf("Digite a nova doenca do paciente: ");
-    scanf(" %[^\n]", p->paciente->doenca);
+    printf("Paciente encontrado: \n");
+    printf("Nome: %s\n", p->paciente->nome);
+    printf("Idade: %d\n", p->paciente->idade);
+    printf("Doenca: %s\n", p->paciente->doenca);
+    printf("Deseja editar o nome do paciente? [1] Sim [2] Nao\n");
+    scanf(" %d", &opcao);
+    if (opcao == 1)
+    {
+        printf("Digite o novo nome do paciente: ");
+        scanf(" %[^\n]", p->paciente->nome);
+    }
+    printf("Deseja editar a idade do paciente? [1] Sim [2] Nao\n");
+    scanf(" %d", &opcao);
+    if (opcao == 1)
+    {
+        printf("Digite a nova idade do paciente: ");
+        scanf(" %d", &p->paciente->idade);
+    }
+    printf("Deseja editar a doenca do paciente? [1] Sim [2] Nao\n");
+    scanf(" %d", &opcao);
+    if (opcao == 1)
+    {
+        printf("Digite a nova doenca do paciente: ");
+        scanf(" %[^\n]", p->paciente->doenca);
+    }
 }
 
 void buscaPaciente(Lista *lista)
-{   
+{
     Lista *p;
     char nome[50];
 
-    if(lst_vazia(lista) == 1){
+    if (lst_vazia(lista) == 1)
+    {
         printf("Lista vazia\n");
         return;
     }
