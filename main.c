@@ -9,6 +9,7 @@ int main(void)
 
     int opcao;
     Lista *listaPacientes = criaLista();
+    ListaMedicos *listaMedicos = criaListaMedicos();
 
     do
     {
@@ -28,6 +29,7 @@ int main(void)
         switch (opcao)
         {
         case 1:
+            listaMedicos = addMedicoLista(preencheMedico(), listaMedicos);
             break;
         case 2:
             break;
@@ -44,11 +46,13 @@ int main(void)
             buscaPaciente(listaPacientes);
             break;
         case 7:
+            
             break;
         case 8:
             listPacientes(listaPacientes);
             break;
         case 9:
+
             break;
         case 10:
             break;
