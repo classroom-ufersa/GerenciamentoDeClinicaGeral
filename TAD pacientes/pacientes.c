@@ -40,7 +40,11 @@ Lista *criaLista(void)
 
 int lst_vazia(Lista *l)
 {
-    return (l == NULL);
+    if(l == NULL){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 
 Lista *addPaciente(Paciente *paciente, Lista *lista)
@@ -88,8 +92,6 @@ void removePaciente(Lista **lista)
 void editPaciente(Lista *lista)
 {
     char nome[50];
-    int idade;
-    char doenca[50];
 
     printf("\n Informe o nome do paciente que deseja editar: ");
     scanf(" %[^\n]", nome);
@@ -112,6 +114,34 @@ void editPaciente(Lista *lista)
     scanf(" %d", &p->paciente->idade);
     printf("Digite a nova doenca do paciente: ");
     scanf(" %[^\n]", p->paciente->doenca);
+}
+
+void buscaPaciente(Lista *lista)
+{   
+    Lista *p;
+    char nome[50];
+
+    if(lst_vazia(lista) == 1){
+        printf("Lista vazia\n");
+        return;
+    }
+
+    printf("Buscando paciente\n");
+    printf("Informe o nome do paciente: ");
+    scanf(" %[^\n]", nome);
+
+    for (p = lista; p != NULL; p = p->prox)
+    {
+        if (strcmp(p->paciente->nome, nome) == 0)
+        {
+            printf("Paciente encontrado: \n");
+            printf("Nome: %s\n", p->paciente->nome);
+            printf("Idade: %d\n", p->paciente->idade);
+            printf("Doenca: %s\n", p->paciente->doenca);
+            return;
+        }
+    }
+    printf("Paciente nao encontrado \n");
 }
 
 void listPacientes(Lista *lista)

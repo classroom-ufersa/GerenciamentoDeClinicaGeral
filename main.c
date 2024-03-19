@@ -6,11 +6,6 @@
 
 int main(void)
 {
-    Medico *medico1 = addMedico("Dr. Joao", "Cardiologista", "Maria", "Segunda-feira");
-    Medico *medico2 = addMedico("Dr. Pedro", "Ortopedista", "Jose", "Terca-feira");
-    listMedicos(medico1);
-    listMedicos(medico2);
-
     Lista *lista = criaLista();
     Paciente *paciente1 = preenchePaciente();
     Paciente *paciente2 = preenchePaciente();
@@ -22,5 +17,8 @@ int main(void)
     removePaciente(&lista);
     listPacientes(lista);
     editPaciente(lista);
+    listPacientes(lista);
+    buscaPaciente(lista);
+
     return 0;
 }
