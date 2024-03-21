@@ -47,3 +47,26 @@ int lst_vazia(Lista *l);
    Recebe a lista
 */
 void listPacientes(Lista *lista);
+
+/* Funcao que abre um arquivo
+   Recebe o nome do arquivo e o modo de abertura
+   Retorna o arquivo
+*/
+FILE *abreArquivo(char *nomeArquivo);
+
+/* Funcao que le um arquivo
+   Recebe o arquivo
+   Retorna a lista encadeada de pacientes
+*/
+void escreverArquivo(Lista *lista);
+
+/* Funcao que escreve no arquivo
+   Recebe o pacinete e escreve no arquivo
+*/
+void escreverPaciente(Paciente *paciente);
+
+/* Funcao que le um arquivo
+   Recebe a lista encadeada de pacientes
+   ler o arquivo e insere na lista
+*/
+void lerArquivo(Lista **lista);

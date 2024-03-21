@@ -6,11 +6,10 @@
 
 int main(void)
 {
-
     int opcao;
     Lista *listaPacientes = criaLista();
     ListaMedicos *listaMedicos = criaListaMedicos();
-
+    char nomeMedico[50];
     do
     {
         printf("\t\nBem vindo a Clinica\n\n");
@@ -32,7 +31,6 @@ int main(void)
             listaMedicos = addMedicoLista(preencheMedico(), listaMedicos);
             break;
         case 2:
-            char nomeMedico[50];
             printf("Digite o nome do medico que deseja remover: ");
             scanf(" %[^\n]", nomeMedico);
             removeMedico(nomeMedico, &listaMedicos);

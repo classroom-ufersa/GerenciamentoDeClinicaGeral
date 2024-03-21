@@ -60,6 +60,10 @@ Lista *addPaciente(Paciente *paciente, Lista *lista)
     }
     novo->paciente = paciente;
     novo->prox = lista;
+    
+    printf("Paciente %s cadastrado com sucesso\n", paciente->nome);
+    escreverPaciente(paciente);
+    
     return novo;
 }
 
@@ -185,4 +189,37 @@ void listPacientes(Lista *lista)
         printf("Idade: %d\n", p->paciente->idade);
         printf("Doenca: %s\n", p->paciente->doenca);
     }
+}
+
+FILE *abreArquivo(char *nomeArquivo)
+{
+    FILE *arq;
+    arq = fopen(nomeArquivo, "a+");
+    if (arq == NULL)
+    {
+        printf("Erro ao abrir o arquivo\n");
+        exit(1);
+    }
+    return arq;
+}
+
+void escreverArquivo(Lista *lista)
+{
+    FILE *arquivo = abreArquivo("pacientes.txt");
+
+    Lista *p = lista;
+    while (p != NULL)
+    {
+        fprintf(arquivo, "%s\n%d\n%s", p->paciente->nome, p->paciente->idade, p->paciente->doenca);
+        p = p->prox;
+    }
+
+    fclose(arquivo);
+}
+
+void escreverPaciente(Paciente *paciente)
+{
+    FILE *arquivo = abreArquivo("pacientes.txt");
+    fprintf(arquivo, "\n%s\n%d\n%s\n", paciente->nome, paciente->idade, paciente->doenca);
+    fclose(arquivo);
 }
