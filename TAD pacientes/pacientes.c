@@ -220,6 +220,6 @@ void escreverArquivo(Lista *lista)
 void escreverPaciente(Paciente *paciente)
 {
     FILE *arquivo = abreArquivo("pacientes.txt");
-    fprintf(arquivo, "\n%s\n%d\n%s\n", paciente->nome, paciente->idade, paciente->doenca);
+    fprintf(arquivo, "Nome do Paciente: %s\n Idade: %d\n Doenca: %s\n \n", paciente->nome, paciente->idade, paciente->doenca);
     fclose(arquivo);
 }
