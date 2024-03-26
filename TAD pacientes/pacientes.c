@@ -3,19 +3,6 @@
 #include <string.h>
 #include "pacientes.h"
 
-struct paciente
-{
-    char nome[50];
-    int idade;
-    char doenca[50];
-};
-
-struct lista
-{
-    Paciente *paciente;
-    Lista *prox;
-};
-
 Paciente *preenchePaciente(void)
 {
     Paciente *paciente = (Paciente *)malloc(sizeof(Paciente));
@@ -99,7 +86,12 @@ void removePaciente(Lista **lista)
 }
 
 void editPaciente(Lista *lista)
-{
+{   
+    if (lst_vazia(lista) == 1)
+    {
+        printf("Lista vazia\n");
+        return;
+    }
     char nome[50];
     int opcao;
     printf("\nInforme o nome do paciente que deseja editar: ");
@@ -181,7 +173,13 @@ void buscaPaciente(Lista *lista)
 }
 
 void listPacientes(Lista *lista)
-{
+{  
+    if (lst_vazia(lista) == 1)
+    {
+        printf("Lista vazia\n");
+        return;
+    }
+
     Lista *p;
     for (p = lista; p != NULL; p = p->prox)
     {
@@ -191,35 +189,54 @@ void listPacientes(Lista *lista)
     }
 }
 
-FILE *abreArquivo(char *nomeArquivo)
-{
-    FILE *arq;
-    arq = fopen(nomeArquivo, "a+");
-    if (arq == NULL)
-    {
-        printf("Erro ao abrir o arquivo\n");
-        exit(1);
-    }
-    return arq;
-}
-
-void escreverArquivo(Lista *lista)
-{
-    FILE *arquivo = abreArquivo("pacientes.txt");
-
-    Lista *p = lista;
-    while (p != NULL)
-    {
-        fprintf(arquivo, "%s\n%d\n%s", p->paciente->nome, p->paciente->idade, p->paciente->doenca);
-        p = p->prox;
-    }
-
-    fclose(arquivo);
-}
-
 void escreverPaciente(Paciente *paciente)
 {
-    FILE *arquivo = abreArquivo("pacientes.txt");
+    // abrir arquivo para escrita
+
+    FILE *arquivo;
+    arquivo = fopen("CadClinica.txt", "a");
+
     fprintf(arquivo, "Nome do Paciente: %s\n Idade: %d\n Doenca: %s\n \n", paciente->nome, paciente->idade, paciente->doenca);
     fclose(arquivo);
+}
+
+Lista *addPaciente2(char *nome, char *doenca, int idade, Lista *lista)
+{
+    Lista *novo = (Lista *)malloc(sizeof(Lista));
+    if (novo == NULL)
+    {
+        printf("Memoria insuficiente\n");
+        exit(1);
+    }
+
+    // Aloca memória para o paciente
+    novo->paciente = (Paciente *)malloc(sizeof(Paciente));
+    if (novo->paciente == NULL)
+    {
+        printf("Memoria insuficiente\n");
+        free(novo);
+        exit(1);
+    }
+
+    // Agora, copiamos os valores para o novo paciente diretamente
+    strcpy(novo->paciente->nome, nome);
+    strcpy(novo->paciente->doenca, doenca);
+    novo->paciente->idade = idade;
+    novo->prox = lista; // Faz o novo nó apontar para a cabeça atual da lista
+
+    printf("Paciente %s cadastrado com sucesso\n", nome);
+
+    return novo; // Retorna a nova cabeça da lista
+}
+
+void lerArquivo(FILE *arquivo_client, Lista **listaPacientes)
+{   
+    char nome[50], doenca[50];
+    int idade;
+
+    while (fscanf(arquivo_client, " Nome do Paciente: %49[^\n]\n Idade: %d\n Doenca: %49[^\n]\n", nome, &idade, doenca) != EOF)
+    {
+        *listaPacientes = addPaciente2(nome, doenca, idade, *listaPacientes);
+        fscanf(arquivo_client, "\n");
+    }
 }

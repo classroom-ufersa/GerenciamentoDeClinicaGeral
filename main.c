@@ -10,6 +10,16 @@ int main(void)
     Lista *listaPacientes = criaLista();
     ListaMedicos *listaMedicos = criaListaMedicos();
     char nomeMedico[50];
+
+    FILE *arq = fopen("CadClinica.txt", "r");
+    if (arq == NULL)
+    {
+        printf("Erro ao abrir o arquivo\n");
+        exit(1);
+    }
+    
+    lerArquivo(arq, &listaPacientes);
+
     do
     {
         printf("\t\nBem vindo a Clinica\n\n");
@@ -36,6 +46,7 @@ int main(void)
             removeMedico(nomeMedico, &listaMedicos);
             break;
         case 3:
+            
             listaPacientes = addPaciente(preenchePaciente(), listaPacientes);
             break;
         case 4:

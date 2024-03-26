@@ -1,7 +1,18 @@
 /* TAD: Define um paciente*/
-typedef struct paciente Paciente;
+typedef struct paciente
+{
+   char nome[50];
+   int idade;
+   char doenca[50];
+} Paciente;
 
 typedef struct lista Lista;
+
+typedef struct lista
+{
+   Paciente *paciente;
+   Lista *prox;
+} Lista;
 
 /* Funcao preenche os dados do paciente
    nao recebe parametros
@@ -48,12 +59,6 @@ int lst_vazia(Lista *l);
 */
 void listPacientes(Lista *lista);
 
-/* Funcao que abre um arquivo
-   Recebe o nome do arquivo e o modo de abertura
-   Retorna o arquivo
-*/
-FILE *abreArquivo(char *nomeArquivo);
-
 /* Funcao que le um arquivo
    Recebe o arquivo
    Retorna a lista encadeada de pacientes
@@ -69,4 +74,4 @@ void escreverPaciente(Paciente *paciente);
    Recebe a lista encadeada de pacientes
    ler o arquivo e insere na lista
 */
-void lerArquivo(Lista **lista);
+void lerArquivo(FILE *arquivo_client, Lista **listaPacientes);
