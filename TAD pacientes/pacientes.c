@@ -200,7 +200,7 @@ void escreverPaciente(Paciente *paciente)
     fclose(arquivo);
 }
 
-Lista *addPaciente2(char *nome, char *doenca, int idade, Lista *lista)
+Lista *addPacienteArquivo(char *nome, char *doenca, int idade, Lista *lista)
 {
     Lista *novo = (Lista *)malloc(sizeof(Lista));
     if (novo == NULL)
@@ -224,8 +224,6 @@ Lista *addPaciente2(char *nome, char *doenca, int idade, Lista *lista)
     novo->paciente->idade = idade;
     novo->prox = lista; // Faz o novo nó apontar para a cabeça atual da lista
 
-    printf("Paciente %s cadastrado com sucesso\n", nome);
-
     return novo; // Retorna a nova cabeça da lista
 }
 
@@ -236,7 +234,7 @@ void lerArquivo(FILE *arquivo_client, Lista **listaPacientes)
 
     while (fscanf(arquivo_client, " Nome do Paciente: %49[^\n]\n Idade: %d\n Doenca: %49[^\n]\n", nome, &idade, doenca) != EOF)
     {
-        *listaPacientes = addPaciente2(nome, doenca, idade, *listaPacientes);
+        *listaPacientes = addPacienteArquivo(nome, doenca, idade, *listaPacientes);
         fscanf(arquivo_client, "\n");
     }
 }
