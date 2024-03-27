@@ -57,16 +57,33 @@ ListaMedicos *criaListaMedicos(void)
     return NULL;
 }
 
-ListaMedicos *addMedicoLista(Medico *medico, ListaMedicos *lista)
-{
+ListaMedicos *addMedicoLista(Medico *medico, ListaMedicos *lista) {
     ListaMedicos *novo = (ListaMedicos *)malloc(sizeof(ListaMedicos));
-    if (novo == NULL)
-    {
+    if (novo == NULL) {
         printf("Memoria insuficiente \n");
         exit(1);
     }
     novo->medico = medico;
     novo->prox = lista;
+
+    // Abrir o arquivo para escrita (append mode)
+    FILE *arquivo = fopen("pacientes.txt", "a");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo pacientes.txt\n");
+        exit(1);
+    }
+
+    // Escrever os detalhes do médico no arquivo
+    fprintf(arquivo, "Medico: %s - Especialidade: %s - Disponibilidade: %s\n", medico->nome, medico->especialidade, medico->disponibilidade);
+    // Se desejar, você pode adicionar mais detalhes do médico aqui
+
+    // Escrever os detalhes do paciente associado ao médico no arquivo
+    fprintf(arquivo, "Paciente: %s\n", medico->paciente);
+    // Se desejar, você pode adicionar mais detalhes do paciente aqui
+
+    // Fechar o arquivo
+    fclose(arquivo);
+
     return novo;
 }
 
@@ -85,12 +102,48 @@ void removeMedico(char *nome, ListaMedicos **lista) {
         } else {
             ant->prox = p->prox;
         }
-        free(p->medico); 
-        free(p); 
+        removerMedicoDoArquivo(p->medico->nome);
+        free(p->medico);
+        free(p);
     } else {
         printf("Medico nao encontrado\n");
     }
 }
+
+void removerMedicoDoArquivo(char *nome) {
+    FILE *arquivoTemporario = fopen("temporario.txt", "w");
+    if (arquivoTemporario == NULL) {
+        printf("Erro ao abrir o arquivo temporario.txt\n");
+        exit(1);
+    }
+
+    FILE *arquivo = fopen("pacientes.txt", "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo pacientes.txt\n");
+        exit(1);
+    }
+
+    char linha[1000];
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        if (!strstr(linha, nome)) {
+            fputs(linha, arquivoTemporario);
+        }
+    }
+
+    fclose(arquivo);
+    fclose(arquivoTemporario);
+
+    if (remove("pacientes.txt") != 0) {
+        printf("Erro ao remover o arquivo pacientes.txt\n");
+        exit(1);
+    }
+
+    if (rename("temporario.txt", "pacientes.txt") != 0) {
+        printf("Erro ao renomear o arquivo temporario.txt\n");
+        exit(1);
+    }
+}
+
 
 
 void listMedicos(ListaMedicos *lista) {
@@ -105,10 +158,6 @@ void listMedicos(ListaMedicos *lista) {
         p = p->prox;
     }
 }
-
-
-
-
 
 
 
