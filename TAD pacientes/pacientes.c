@@ -83,6 +83,25 @@ void removePaciente(Lista **lista)
     }
     free(p);
     printf("Paciente %s removido com sucesso\n", nomePaciente);
+
+    reescreverArquivo(*lista);
+}
+
+void reescreverArquivo(Lista *lista) {
+    FILE *arquivo = fopen("CadClinica.txt", "w"); // Abrir o arquivo em modo de escrita, isso vai limpar o arquivo atual
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para reescrita\n");
+        return;
+    }
+
+    while (lista != NULL) {
+        fprintf(arquivo, "Nome do Paciente: %s\n", lista->paciente->nome);
+        fprintf(arquivo, "Idade: %d\n", lista->paciente->idade);
+        fprintf(arquivo, "Doenca: %s\n\n", lista->paciente->doenca);
+        lista = lista->prox;
+    }
+
+    fclose(arquivo);
 }
 
 void editPaciente(Lista *lista)
@@ -93,7 +112,7 @@ void editPaciente(Lista *lista)
         return;
     }
     char nome[50];
-    int opcao;
+    int opc;
     printf("\nInforme o nome do paciente que deseja editar: ");
     scanf(" %[^\n]", nome);
 
@@ -113,34 +132,45 @@ void editPaciente(Lista *lista)
     printf("Nome: %s\n", p->paciente->nome);
     printf("Idade: %d\n", p->paciente->idade);
     printf("Doenca: %s\n", p->paciente->doenca);
-    printf("Deseja editar o nome do paciente? [1] Sim [2] Nao\n");
-    scanf(" %d", &opcao);
-    if (opcao == 1)
+    do
     {
-        printf("Digite o novo nome do paciente: ");
-        scanf(" %[^\n]", p->paciente->nome);
-        printf("Nome alterado com sucesso\n");
-    }
-    printf("Deseja editar a idade do paciente? [1] Sim [2] Nao\n");
-    scanf(" %d", &opcao);
-    if (opcao == 1)
-    {
-        printf("Digite a nova idade do paciente: ");
-        scanf(" %d", &p->paciente->idade);
-        printf("Idade alterada com sucesso\n");
-    }
-    printf("Deseja editar a doenca do paciente? [1] Sim [2] Nao\n");
-    scanf(" %d", &opcao);
-    if (opcao == 1)
-    {
-        printf("Digite a nova doenca do paciente: ");
-        scanf(" %[^\n]", p->paciente->doenca);
-        printf("Doenca alterada com sucesso\n");
-    }
+        printf("Escolha uma opcao: \n");
+        printf("1 - Editar nome\n");
+        printf("2 - Editar idade\n");
+        printf("3 - Editar doenca\n");
+        printf("0 - Sair\n");
+        printf("Digite a opcao desejada: ");
+        scanf(" %d", &opc);
+        switch(opc)
+        {
+            case 1:
+                printf("Digite o novo nome do paciente: ");
+                scanf(" %[^\n]", p->paciente->nome);
+                printf("Nome alterado com sucesso\n");
+                break;
+            case 2:
+                printf("Digite a nova idade do paciente: ");
+                scanf(" %d", &p->paciente->idade);
+                printf("Idade alterada com sucesso\n");
+                break;
+            case 3:
+                printf("Digite a nova doenca do paciente: ");
+                scanf(" %[^\n]", p->paciente->doenca);
+                printf("Doenca alterada com sucesso\n");
+                break;
+            case 0:
+                printf("Saindo...\n");
+                break;
+            default:
+                printf("Opcao invalida\n");
+        }
+    } while (opc != 0);
     printf("Paciente editado com sucesso\n");
     printf("Nome: %s\n", p->paciente->nome);
     printf("Idade: %d\n", p->paciente->idade);
     printf("Doenca: %s\n", p->paciente->doenca);
+
+    reescreverArquivo(lista);
 }
 
 void buscaPaciente(Lista *lista)
@@ -196,7 +226,7 @@ void escreverPaciente(Paciente *paciente)
     FILE *arquivo;
     arquivo = fopen("CadClinica.txt", "a");
 
-    fprintf(arquivo, "Nome do Paciente: %s\n Idade: %d\n Doenca: %s\n \n", paciente->nome, paciente->idade, paciente->doenca);
+    fprintf(arquivo, "Nome do Paciente: %s\nIdade: %d\nDoenca: %s\n \n", paciente->nome, paciente->idade, paciente->doenca);
     fclose(arquivo);
 }
 
@@ -232,7 +262,7 @@ void lerArquivo(FILE *arquivo_client, Lista **listaPacientes)
     char nome[50], doenca[50];
     int idade;
 
-    while (fscanf(arquivo_client, " Nome do Paciente: %49[^\n]\n Idade: %d\n Doenca: %49[^\n]\n", nome, &idade, doenca) != EOF)
+    while (fscanf(arquivo_client, " Nome do Paciente: %49[^\n]\nIdade: %d\nDoenca: %49[^\n]\n", nome, &idade, doenca) != EOF)
     {
         *listaPacientes = addPacienteArquivo(nome, doenca, idade, *listaPacientes);
         fscanf(arquivo_client, "\n");

@@ -76,20 +76,5 @@ int main(void)
             break;
         }
     } while (opcao != 0);
-
-    // Lista *lista = criaLista();
-    // Paciente *paciente1 = preenchePaciente();
-    // Paciente *paciente2 = preenchePaciente();
-    // Paciente *paciente3 = preenchePaciente();
-    // lista = addPaciente(paciente1, lista);
-    // lista = addPaciente(paciente2, lista);
-    // lista = addPaciente(paciente3, lista);
-    // listPacientes(lista);
-    // removePaciente(&lista);
-    // listPacientes(lista);
-    // editPaciente(lista);
-    // listPacientes(lista);
-    // buscaPaciente(lista);
-
     return 0;
 }
