@@ -70,3 +70,4 @@ void escreverPaciente(Paciente *paciente);
    ler o arquivo e insere na lista
 */
 void lerArquivo(Lista **lista);
+
