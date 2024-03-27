@@ -25,4 +25,7 @@ ListaMedicos *addMedicoLista(Medico *medico, ListaMedicos *lista);
 /* Função para preencher os dados de um médico */
 Medico *preencheMedico(void);
 
+
+void removerMedicoDoArquivo(char *nome);
+
 #endif /* MEDICOS_H */
