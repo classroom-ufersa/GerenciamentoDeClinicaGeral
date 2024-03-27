@@ -6,10 +6,19 @@
 
 int main(void)
 {
-
     int opcao;
     Lista *listaPacientes = criaLista();
     ListaMedicos *listaMedicos = criaListaMedicos();
+    char nomeMedico[50];
+
+    FILE *arq = fopen("CadClinica.txt", "r");
+    if (arq == NULL)
+    {
+        printf("Erro ao abrir o arquivo\n");
+        exit(1);
+    }
+    
+    lerArquivo(arq, &listaPacientes);
 
     do
     {
@@ -32,12 +41,12 @@ int main(void)
             listaMedicos = addMedicoLista(preencheMedico(), listaMedicos);
             break;
         case 2:
-            char nomeMedico[50];
             printf("Digite o nome do medico que deseja remover: ");
             scanf(" %[^\n]", nomeMedico);
             removeMedico(nomeMedico, &listaMedicos);
             break;
         case 3:
+            
             listaPacientes = addPaciente(preenchePaciente(), listaPacientes);
             break;
         case 4:
@@ -67,20 +76,5 @@ int main(void)
             break;
         }
     } while (opcao != 0);
-
-    // Lista *lista = criaLista();
-    // Paciente *paciente1 = preenchePaciente();
-    // Paciente *paciente2 = preenchePaciente();
-    // Paciente *paciente3 = preenchePaciente();
-    // lista = addPaciente(paciente1, lista);
-    // lista = addPaciente(paciente2, lista);
-    // lista = addPaciente(paciente3, lista);
-    // listPacientes(lista);
-    // removePaciente(&lista);
-    // listPacientes(lista);
-    // editPaciente(lista);
-    // listPacientes(lista);
-    // buscaPaciente(lista);
-
     return 0;
 }
