@@ -10,6 +10,7 @@ int main(void)
     Lista *listaPacientes = criaLista();
     ListaMedicos *listaMedicos = criaListaMedicos();
     char nomeMedico[50];
+<<<<<<< Updated upstream
 
     FILE *arq = fopen("CadClinica.txt", "r");
     if (arq == NULL)
@@ -22,6 +23,11 @@ int main(void)
 
     do
     {
+=======
+    char nomePaciente[50];
+    
+    do {
+>>>>>>> Stashed changes
         printf("\t\nBem vindo a Clinica\n\n");
         printf("Escolha uma opcao: \n");
         printf("1 - Cadastro medico\n");
@@ -66,6 +72,7 @@ int main(void)
             break;
         case 9:
 
+<<<<<<< Updated upstream
             break;
         case 10:
             break;
@@ -74,6 +81,45 @@ int main(void)
         default:
             printf("Opcao invalida\n");
             break;
+=======
+        opcao = lerOpcao();
+
+        switch (opcao) {
+            case 1:
+                listaMedicos = addMedicoLista(preencheMedico(), listaMedicos);
+                break;
+            case 2:
+                printf("Digite o nome do medico que deseja remover: ");
+                scanf(" %[^\n]", nomeMedico);
+                removeMedico(nomeMedico, &listaMedicos);
+                break;
+            case 3:
+                listaPacientes = addPaciente(preenchePaciente(), listaPacientes);
+                break;
+            case 4:
+                printf("Digite o nome do paciente que deseja remover: ");
+                scanf(" %[^\n]", nomePaciente);
+                removePaciente(&listaPacientes);
+                removerPacienteDoArquivo(nomePaciente);
+                break;
+            case 5:
+                editPaciente(listaPacientes);
+                break;
+            case 6:
+                buscaPaciente(listaPacientes);
+                break;
+            case 7:
+                // Adicione aqui a opção para listar médicos e seus pacientes
+                break;
+            case 8:
+                listPacientes(listaPacientes);
+                break;
+            case 0:
+                break;
+            default:
+                printf("Opcao invalida. Por favor, escolha uma das opcoes do menu.\n");
+                break;
+>>>>>>> Stashed changes
         }
     } while (opcao != 0);
     return 0;
