@@ -1,4 +1,13 @@
-Nome do Paciente: mariana
-Idade: 21
-Doenca: dengue
 
+Medico: Joao - Especialidade: Cardiologista - Disponibilidade: 10h
+Paciente: Jose Silva
+Medico: Dr Pedro - Especialidade: Ortopedista - Disponibilidade: 17h
+Paciente: Carlos
+Nome do Paciente: Geruza
+Idade: 40
+Doenca: Dengue
+ 
+Nome do Paciente: Carlos
+Idade: 28
+Doenca: Torcao no tornozelo
+ 
