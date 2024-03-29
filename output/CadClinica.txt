@@ -1,0 +1,4 @@
+Nome do Paciente: mariana
+Idade: 21
+Doenca: dengue
+

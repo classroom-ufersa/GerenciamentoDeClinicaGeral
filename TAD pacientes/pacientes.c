@@ -104,6 +104,44 @@ void reescreverArquivo(Lista *lista) {
     fclose(arquivo);
 }
 
+void removerPacienteDoArquivo(char *nome) {
+    FILE *arquivoTemporario = fopen("temporario.txt", "w");
+    if (arquivoTemporario == NULL) {
+        printf("Erro ao abrir o arquivo temporario.txt\n");
+        exit(1);
+    }
+
+    FILE *arquivo = fopen("CadClinica.txt", "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo CadClinica.txt\n");
+        exit(1);
+    }
+        
+    char linha[1000];
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        if (strstr(linha, nome)) {
+            fgets(linha, sizeof(linha), arquivo); 
+            fgets(linha, sizeof(linha), arquivo); 
+        } else {
+            fputs(linha, arquivoTemporario);
+        }
+    }
+
+    fclose(arquivo);
+    fclose(arquivoTemporario);
+
+    if (remove("CadClinica.txt") != 0) {
+        printf("Erro ao remover o arquivo CadClinica.txt\n");
+        exit(1);
+    }
+
+    if (rename("temporario.txt", "CadClinica.txt") != 0) {
+        printf("Erro ao renomear o arquivo temporario.txt\n");
+        exit(1);
+    }
+}
+
+
 void editPaciente(Lista *lista)
 {   
     if (lst_vazia(lista) == 1)
