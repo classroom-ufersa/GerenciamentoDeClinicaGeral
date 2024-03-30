@@ -74,13 +74,11 @@ void escreverPaciente(Paciente *paciente);
    Recebe a lista encadeada de pacientes
    ler o arquivo e insere na lista
 */
-
-void removerPacienteDoArquivo(char *nome);
-
-
-void lerArquivo(FILE *arquivo_client, Lista **listaPacientes);
+//void lerArquivo(FILE *arquivo_client, Lista **listaPacientes);
 
 /* função recebe a lista encadeada de pacientes e reescreve o arquivo
    com as informações atualizadas
 */
 void reescreverArquivo(Lista *lista);
+
+void lerDados(FILE *arquivo, Lista **listaPacientes, ListaMedicos **listaMedicos);
