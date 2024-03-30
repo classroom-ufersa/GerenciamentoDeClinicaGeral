@@ -175,3 +175,17 @@ void escreverMedico(Medico *medico)
     fprintf(arq, "\n");
     fclose(arq);
 }
+
+void lstLiberaMedicos(ListaMedicos *l)
+{
+    ListaMedicos *p = l;
+    ListaMedicos *t;
+
+    while (p != NULL)
+    {
+        t = p->prox;
+        free(p->medico);
+        free(p);
+        p = t;
+    }
+}

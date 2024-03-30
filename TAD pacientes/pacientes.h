@@ -25,11 +25,11 @@ Paciente *preenchePaciente(void);
 */
 Lista *criaLista(void);
 
-/* Funcao que insere um paciente na lista
-   Recebe um paciente e uma lista
-   Retorna a lista com o paciente inserido
+/* Funcao que insere um paciente na lista e ordena
+   Recebe um paciente e um ponteiro para lista
+   Retorna a lista com o paciente inserido e ja ordenado
 */
-Lista *addPaciente(Paciente *paciente, Lista *lista);
+Lista *inserirLista(Lista **lista, Paciente *paciente);
 
 /*  Funcao para remover paciente
     Recebe uma lista encadeada de pacientes
@@ -60,25 +60,17 @@ int lst_vazia(Lista *l);
 void listPacientes(Lista *lista);
 
 /* Funcao que le um arquivo
-   Recebe o arquivo
-   Retorna a lista encadeada de pacientes
-*/
-void escreverArquivo(Lista *lista);
-
-/* Funcao que escreve no arquivo
-   Recebe o pacinete e escreve no arquivo
-*/
-void escreverPaciente(Paciente *paciente);
-
-/* Funcao que le um arquivo
    Recebe a lista encadeada de pacientes
    ler o arquivo e insere na lista
 */
-//void lerArquivo(FILE *arquivo_client, Lista **listaPacientes);
+void lerDados(FILE *arquivo, Lista **listaPacientes, ListaMedicos **listaMedicos);
 
-/* função recebe a lista encadeada de pacientes e reescreve o arquivo
+/* função recebe a lista encadeada de pacientes e reescreve no arquivo
    com as informações atualizadas
 */
 void reescreverArquivo(Lista *lista);
 
-void lerDados(FILE *arquivo, Lista **listaPacientes, ListaMedicos **listaMedicos);
+/* funcao que libera o espaco de memoria alocado para a lista de pacientes
+   recebe a lista encadeada de pacientes
+*/
+void lstLiberaPacientes(Lista *l);

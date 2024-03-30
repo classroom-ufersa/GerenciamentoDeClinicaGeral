@@ -36,11 +36,8 @@ int main(void) {
     lerDados(arq, &listaPacientes, &listaMedicos);
     fclose(arq);
     
-    // lerArquivo(arq, &listaPacientes);
-    // fclose(arq);
-    
     do {
-        printf("\t\nBem vindo a Clinica\n\n");
+        printf("\t\nBem vindo a Clinica G&G\n\n");
         printf("Escolha uma opcao: \n");
         printf("1 - Cadastro medico\n");
         printf("2 - Remover medico\n");
@@ -65,7 +62,8 @@ int main(void) {
                 removeMedico(nomeMedico, &listaMedicos);
                 break;
             case 3:
-                listaPacientes = addPaciente(preenchePaciente(), listaPacientes);
+                listaPacientes = inserirLista(&listaPacientes,preenchePaciente());
+                reescreverArquivo(listaPacientes);
                 break;
             case 4:
                 removePaciente(&listaPacientes);
@@ -91,6 +89,9 @@ int main(void) {
                 break;
         }
     } while (opcao != 0);
+
+    lstLiberaPacientes(listaPacientes);
+    lstLiberaMedicos(listaMedicos);
 
     return 0;
 }

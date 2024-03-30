@@ -38,7 +38,18 @@ int lst_vazia(Lista *l)
     }
 }
 
-Lista *addPaciente(Paciente *paciente, Lista *lista)
+void lstLiberaPacientes(Lista *l)
+{
+    Lista *p = l;
+    while (p != NULL)
+    {
+        Lista *t = p->prox;
+        free(p);
+        p = t;
+    }
+}
+
+Lista *inserirLista(Lista **lista, Paciente *paciente)
 {
     Lista *novo = (Lista *)malloc(sizeof(Lista));
     if (novo == NULL)
@@ -47,12 +58,27 @@ Lista *addPaciente(Paciente *paciente, Lista *lista)
         exit(1);
     }
     novo->paciente = paciente;
-    novo->prox = lista;
+    novo->prox = NULL;
 
-    printf("Paciente %s cadastrado com sucesso\n", paciente->nome);
-    escreverPaciente(paciente);
+    Lista *ant = NULL;
+    Lista *p = *lista;
+    while (p != NULL && strcmp(p->paciente->nome, paciente->nome) < 0)
+    {
+        ant = p;
+        p = p->prox;
+    }
+    if (ant == NULL)
+    {
+        novo->prox = *lista;
+        *lista = novo;
+    }
+    else
+    {
+        novo->prox = ant->prox;
+        ant->prox = novo;
+    }
 
-    return novo;
+    return *lista;
 }
 
 void removePaciente(Lista **lista)
@@ -90,7 +116,7 @@ void removePaciente(Lista **lista)
 
 void reescreverArquivo(Lista *lista)
 {
-    FILE *arquivo = fopen("CadClinica.txt", "w"); // Abrir o arquivo em modo de escrita, isso vai limpar o arquivo atual
+    FILE *arquivo = fopen("CadClinica.txt", "w");
     if (arquivo == NULL)
     {
         printf("Erro ao abrir o arquivo para reescrita\n");
@@ -99,7 +125,7 @@ void reescreverArquivo(Lista *lista)
 
     while (lista != NULL)
     {
-        fprintf(arquivo, "Nome do Paciente: %s\n", lista->paciente->nome);
+        fprintf(arquivo, "Paciente\nNome do Paciente: %s\n", lista->paciente->nome);
         fprintf(arquivo, "Idade: %d\n", lista->paciente->idade);
         fprintf(arquivo, "Doenca: %s\n\n", lista->paciente->doenca);
         lista = lista->prox;
@@ -119,6 +145,7 @@ void editPaciente(Lista *lista)
     int opc;
     printf("\nInforme o nome do paciente que deseja editar: ");
     scanf(" %[^\n]", nome);
+
 
     Lista *ant = NULL;
     Lista *p = lista;
@@ -223,74 +250,47 @@ void listPacientes(Lista *lista)
     }
 }
 
-void escreverPaciente(Paciente *paciente)
-{
-    FILE *arquivo;
-    arquivo = fopen("CadClinica.txt", "a");
-
-    fprintf(arquivo, "Paciente\nNome do Paciente: %s\nIdade: %d\nDoenca: %s\n \n", paciente->nome, paciente->idade, paciente->doenca);
-    fclose(arquivo);
-}
-
-Lista *addPacienteArquivo(char *nome, char *doenca, int idade, Lista *lista)
-{
-    Lista *novo = (Lista *)malloc(sizeof(Lista));
-    if (novo == NULL)
+Lista *addPacienteArquivo(char *nome, char *doenca, int idade, Lista **lista)
+{   
+    Paciente *novoPaciente = (Paciente *)malloc(sizeof(Paciente));
+    if (novoPaciente == NULL)
     {
         printf("Memoria insuficiente\n");
         exit(1);
     }
 
-    novo->paciente = (Paciente *)malloc(sizeof(Paciente));
-    if (novo->paciente == NULL)
-    {
-        printf("Memoria insuficiente\n");
-        free(novo);
-        exit(1);
-    }
+    strcpy(novoPaciente->nome, nome);
+    strcpy(novoPaciente->doenca, doenca);
+    novoPaciente->idade = idade;
 
-    strcpy(novo->paciente->nome, nome);
-    strcpy(novo->paciente->doenca, doenca);
-    novo->paciente->idade = idade;
-    novo->prox = lista;
+    inserirLista(lista, novoPaciente);
 
-    return novo;
+    return *lista;
 }
 
-// void lerArquivo(FILE *arquivo_client, Lista **listaPacientes)
-// {
-//     char nome[50], doenca[50];
-//     int idade;
-
-//     while (fscanf(arquivo_client, "Paciente\n Nome do Paciente: %49[^\n]\nIdade: %d\nDoenca: %49[^\n]\n", nome, &idade, doenca) != EOF)
-//     {
-//         *listaPacientes = addPacienteArquivo(nome, doenca, idade, *listaPacientes);
-//         fscanf(arquivo_client, "\n");
-//     }
-// }
-
-void lerDados(FILE *arquivo, Lista **listaPacientes, ListaMedicos **listaMedicos) {
-    char buffer[256]; // Buffer para leitura do tipo de registro e outras informações
+void lerDados(FILE *arquivo, Lista **listaPacientes, ListaMedicos **listaMedicos)
+{
+    char buffer[256];
 
     char nome[50], doenca[50], especialidade[50], paciente[50], disponibilidade[50];
     int idade;
 
-    while (fscanf(arquivo, "%s\n", buffer) != EOF) {
-        if (strcmp(buffer, "Paciente") == 0) {
-            // Lê e processa um paciente
-          //  Paciente *novoPaciente = (Paciente *)malloc(sizeof(Paciente));
+    while (fscanf(arquivo, "%s\n", buffer) != EOF)
+    {
+        if (strcmp(buffer, "Paciente") == 0)
+        {
             fscanf(arquivo, "Nome do Paciente: %[^\n]\n", nome);
             fscanf(arquivo, "Idade: %d\n", &idade);
             fscanf(arquivo, "Doenca: %[^\n]\n\n", doenca);
-            *listaPacientes = addPacienteArquivo(nome, doenca, idade, *listaPacientes); // Supondo que a função addPaciente2 adiciona ao início da lista
-        } else if (strcmp(buffer, "Medico") == 0) {
-            // Lê e processa um médico
-           // Medico *novoMedico = (Medico *)malloc(sizeof(Medico));
+            *listaPacientes = addPacienteArquivo(nome, doenca, idade, listaPacientes);
+        }
+        else if (strcmp(buffer, "Medico") == 0)
+        {
             fscanf(arquivo, "Nome do Medico: %[^\n]\n", nome);
             fscanf(arquivo, "Especialidade: %[^\n]\n", especialidade);
             fscanf(arquivo, "Paciente: %[^\n]\n\n", paciente);
             fscanf(arquivo, "Disponibilidade: %[^\n]\n\n", disponibilidade);
-            *listaMedicos = addMedicoArquivo(nome, especialidade, paciente, disponibilidade, *listaMedicos); // Adiciona ao início da lista de médicos, função addMedico deve ser definida por você
+            *listaMedicos = addMedicoArquivo(nome, especialidade, paciente, disponibilidade, *listaMedicos);
         }
     }
 }

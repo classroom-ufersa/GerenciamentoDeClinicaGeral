@@ -38,4 +38,6 @@ void escreverMedico(Medico *medico);
 
 ListaMedicos *addMedicoArquivo(char *nome, char *especialidade, char *paciente, char *disponibilidade, ListaMedicos *lista);
 
+void lstLiberaMedicos(ListaMedicos *l);
+
 #endif /* MEDICOS_H */
