@@ -5,13 +5,16 @@
 #include "TAD medicos/medicos.c"
 #include "TAD pacientes/pacientes.c"
 
-int lerOpcao() {
+int lerOpcao()
+{
     char opcao[10];
     printf("Digite a opcao desejada: ");
     scanf("%9s", opcao);
 
-    for (int i = 0; opcao[i] != '\0'; i++) {
-        if (!isdigit(opcao[i])) {
+    for (int i = 0; opcao[i] != '\0'; i++)
+    {
+        if (!isdigit(opcao[i]))
+        {
             printf("Opcao invalida. Por favor, digite um numero correspondente a uma das opcoes do menu.\n");
             return -1;
         }
@@ -21,22 +24,25 @@ int lerOpcao() {
     return escolha;
 }
 
-int main(void) {
+int main(void)
+{
     int opcao;
     Lista *listaPacientes = criaLista();
     ListaMedicos *listaMedicos = criaListaMedicos();
-    char nomeMedico[50];
+    Paciente *novoPaciente;
 
     FILE *arq = fopen("CadClinica.txt", "r");
-    if (arq == NULL) {
+    if (arq == NULL)
+    {
         printf("Erro ao abrir o arquivo\n");
         exit(1);
     }
 
     lerDados(arq, &listaPacientes, &listaMedicos);
     fclose(arq);
-    
-    do {
+
+    do
+    {
         printf("\t\nBem vindo a Clinica G&G\n\n");
         printf("Escolha uma opcao: \n");
         printf("1 - Cadastro medico\n");
@@ -52,41 +58,44 @@ int main(void) {
 
         opcao = lerOpcao();
 
-        switch (opcao) {
-            case 1:
-                listaMedicos = addMedicoLista(preencheMedico(), listaMedicos);
-                break;
-            case 2:
-                printf("Digite o nome do medico que deseja remover: ");
-                scanf(" %[^\n]", nomeMedico);
-                removeMedico(nomeMedico, &listaMedicos);
-                break;
-            case 3:
-                listaPacientes = inserirLista(&listaPacientes,preenchePaciente());
-                reescreverArquivo(listaPacientes);
-                break;
-            case 4:
-                removePaciente(&listaPacientes);
-                break;
-            case 5:
-                editPaciente(listaPacientes);
-                break;
-            case 6:
-                buscaPaciente(listaPacientes);
-                break;
-            case 7:
-                // Adicione aqui a opção para listar médicos e seus pacientes
-                break;
-            case 8:
-                listPacientes(listaPacientes);
-                break;
-            case 9:
-                listMedico(listaMedicos);
-            case 0:
-                break;
-            default:
-                printf("Opcao invalida. Por favor, escolha uma das opcoes do menu.\n");
-                break;
+        switch (opcao)
+        {
+        case 1:
+            listaMedicos = inserirOrdenadoMedico(&listaMedicos, preencheMedico());
+            reescreverArquivoMedicos(listaMedicos);
+            break;
+        case 2:
+            removeMedico(&listaMedicos);
+            break;
+        case 3:
+            novoPaciente = preenchePaciente();
+            listaPacientes = inserirLista(&listaPacientes, novoPaciente);
+            escreverPaciente(novoPaciente);
+            // reescreverArquivo(listaPacientes);
+            break;
+        case 4:
+            removePacienteEAtualizaArquivo(&listaPacientes);
+            //removePaciente(&listaPacientes);
+            break;
+        case 5:
+            editPaciente(listaPacientes);
+            break;
+        case 6:
+            buscaPaciente(listaPacientes);
+            break;
+        case 7:
+            // Adicione aqui a opção para listar médicos e seus pacientes
+            break;
+        case 8:
+            listPacientes(listaPacientes);
+            break;
+        case 9:
+            listMedico(listaMedicos);
+        case 0:
+            break;
+        default:
+            printf("Opcao invalida. Por favor, escolha uma das opcoes do menu.\n");
+            break;
         }
     } while (opcao != 0);
 

@@ -82,7 +82,13 @@ Lista *inserirLista(Lista **lista, Paciente *paciente)
 }
 
 void removePaciente(Lista **lista)
-{
+{   
+    if (lst_vazia(*lista) == 1)
+    {
+        printf("Lista vazia\n");
+        return;
+    }
+
     char nomePaciente[50];
 
     printf("\nInforme o nome do paciente que deseja remover: ");
@@ -116,7 +122,7 @@ void removePaciente(Lista **lista)
 
 void reescreverArquivo(Lista *lista)
 {
-    FILE *arquivo = fopen("CadClinica.txt", "w");
+    FILE *arquivo = fopen("CadClinica.txt", "a+");
     if (arquivo == NULL)
     {
         printf("Erro ao abrir o arquivo para reescrita\n");
@@ -131,6 +137,15 @@ void reescreverArquivo(Lista *lista)
         lista = lista->prox;
     }
 
+    fclose(arquivo);
+}
+
+void escreverPaciente(Paciente *paciente)
+{
+    FILE *arquivo;
+    arquivo = fopen("CadClinica.txt", "a");
+
+    fprintf(arquivo, "Paciente\nNome do Paciente: %s\nIdade: %d\nDoenca: %s\n \n", paciente->nome, paciente->idade, paciente->doenca);
     fclose(arquivo);
 }
 
@@ -290,7 +305,7 @@ void lerDados(FILE *arquivo, Lista **listaPacientes, ListaMedicos **listaMedicos
             fscanf(arquivo, "Especialidade: %[^\n]\n", especialidade);
             fscanf(arquivo, "Paciente: %[^\n]\n\n", paciente);
             fscanf(arquivo, "Disponibilidade: %[^\n]\n\n", disponibilidade);
-            *listaMedicos = addMedicoArquivo(nome, especialidade, paciente, disponibilidade, *listaMedicos);
+            *listaMedicos = addMedicoArquivo(nome, especialidade, paciente, disponibilidade, listaMedicos);
         }
     }
 }

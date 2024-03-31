@@ -65,6 +65,11 @@ void listPacientes(Lista *lista);
 */
 void lerDados(FILE *arquivo, Lista **listaPacientes, ListaMedicos **listaMedicos);
 
+/* Funcao que escreve os dados do paciente no arquivo
+   Recebe um paciente
+*/
+void escreverPaciente(Paciente *paciente);
+
 /* função recebe a lista encadeada de pacientes e reescreve no arquivo
    com as informações atualizadas
 */
