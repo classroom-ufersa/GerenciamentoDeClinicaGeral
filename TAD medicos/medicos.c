@@ -24,7 +24,7 @@ Medico *cadastroPaciente(Medico *lista)
     printf("Agora insira os dados do paciente\n");
     p = preenchePaciente();
     aux = buscaMedico(lista, nomeMedico);
-    aux->pacientes = insereNoFinalPaciente(aux->pacientes, p);
+    aux->pacientes = inserePacienteOrdenado(aux->pacientes, p);
     return lista;
   }
   p = preenchePaciente();
@@ -237,7 +237,7 @@ Medico *lerArquivo(char *localDoArquivo, Medico *lista)
     else
     {
       sscanf(linha, "Paciente:%[^\t]%d\t%[^\n]", p.nome, &p.idade, p.doenca);
-      aux->pacientes = insereNoFinalPaciente(aux->pacientes, p);
+      aux->pacientes = inserePacienteOrdenado(aux->pacientes, p);
     }
   }
   fclose(arquivo);
