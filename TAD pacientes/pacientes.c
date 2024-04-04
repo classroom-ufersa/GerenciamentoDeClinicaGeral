@@ -24,58 +24,59 @@ Paciente preenchePaciente()
     return p;
 }
 //colocar no .h
-Paciente *insereNoFinalPaciente(Paciente *p, Paciente pnovo){
-    Paciente *novo = (Paciente *)malloc(sizeof(Paciente));
-    strcpy(novo->nome, pnovo.nome);
-    novo->idade = pnovo.idade;
-    strcpy(novo->doenca, pnovo.doenca);
-    novo->prox = NULL;
-    if(p == NULL){
-        return novo;
-    }
-    Paciente *atual = p;
-    Paciente *ant = p;
-    while(atual != NULL){
-        ant = atual;
-        atual = atual->prox;
-    }
-    ant->prox = novo;
-    return p;
-}
-
-// Paciente *inserePacienteOrdenado(Paciente *p, Paciente pnovo)
-// {
+// Paciente *insereNoFinalPaciente(Paciente *p, Paciente pnovo){
 //     Paciente *novo = (Paciente *)malloc(sizeof(Paciente));
-//     if (novo == NULL)
-//     {
-//         printf("Erro ao alocar memoria\n");
-//         exit(1);
-//     }
 //     strcpy(novo->nome, pnovo.nome);
 //     novo->idade = pnovo.idade;
 //     strcpy(novo->doenca, pnovo.doenca);
 //     novo->prox = NULL;
-
-//     if (p == NULL || strcmp(p->nome, novo->nome) > 0)
-//     {
-//         novo->prox = p;
+//     if(p == NULL){
 //         return novo;
 //     }
-
-//     Paciente *ant = NULL;
 //     Paciente *atual = p;
-
-//     while (atual != NULL && strcmp(atual->nome, pnovo.nome) < 0)
-//     {
+//     Paciente *ant = p;
+//     while(atual != NULL){
 //         ant = atual;
 //         atual = atual->prox;
 //     }
-
 //     ant->prox = novo;
-//     novo->prox = atual;
-
 //     return p;
 // }
+
+Paciente *inserePacienteOrdenado(Paciente *p, Paciente pnovo)
+{
+    Paciente *novo = (Paciente *)malloc(sizeof(Paciente));
+    if (novo == NULL)
+    {
+        printf("Erro ao alocar memoria\n");
+        exit(1);
+    }
+    strcpy(novo->nome, pnovo.nome);
+    novo->idade = pnovo.idade;
+    strcpy(novo->doenca, pnovo.doenca);
+    novo->prox = NULL;
+
+    if (p == NULL || strcmp(p->nome, novo->nome) > 0)
+    {
+        novo->prox = p;
+        return novo;
+    }
+
+    Paciente *ant = NULL;
+    Paciente *atual = p;
+
+    while (atual != NULL && strcmp(atual->nome, pnovo.nome) < 0)
+    {
+        ant = atual;
+        atual = atual->prox;
+    }
+
+    ant->prox = novo;
+    novo->prox = atual;
+
+    return p;
+}
+
 //revisei
 void imprimePacientes(Paciente *p)
 {

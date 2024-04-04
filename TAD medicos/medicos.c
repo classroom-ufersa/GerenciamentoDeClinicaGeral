@@ -28,7 +28,7 @@ Medico *cadastroPaciente(Medico *lista)
     return lista;
   }
   p = preenchePaciente();
-  aux->pacientes = insereNoFinalPaciente(aux->pacientes, p);
+  aux->pacientes = inserePacienteOrdenado(aux->pacientes, p);
   return lista;
 }
 //revisei

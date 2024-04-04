@@ -8,8 +8,10 @@ typedef struct paciente Paciente;
 /* 
 */
 Paciente preenchePaciente();
-Paciente *insereNoFinalPaciente(Paciente *p, Paciente pnovo);
-//Paciente *inserePacienteOrdenado(Paciente *p, Paciente pnovo);
+
+//Paciente *insereNoFinalPaciente(Paciente *p, Paciente pnovo);
+
+Paciente *inserePacienteOrdenado(Paciente *p, Paciente pnovo);
 
 void imprimePacientes(Paciente *p);
 
