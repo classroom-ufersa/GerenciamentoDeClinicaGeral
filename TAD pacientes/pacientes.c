@@ -1,270 +1,192 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "pacientes.h"
 
-Paciente *preenchePaciente(void)
+struct paciente
 {
-    Paciente *paciente = (Paciente *)malloc(sizeof(Paciente));
-    if (paciente == NULL)
-    {
-        printf("Memoria insuficiente \n");
-        exit(1);
-    }
+    char nome[100];
+    int idade;
+    char doenca[100];
+    Paciente *prox;
+};
+
+Paciente preenchePaciente()
+{
+    Paciente p;
     printf("Digite o nome do paciente: ");
-    scanf(" %[^\n]", paciente->nome);
+    scanf(" %[^\n]s", p.nome);
+    LimpaBuffer();
     printf("Digite a idade do paciente: ");
-    scanf(" %d", &paciente->idade);
+    scanf("%d", &p.idade);
+    LimpaBuffer();
     printf("Digite a doenca do paciente: ");
-    scanf(" %[^\n]", paciente->doenca);
-    return paciente;
+    scanf(" %[^\n]s", p.doenca);
+    LimpaBuffer();
+    p.prox = NULL;
+    return p;
 }
+//colocar no .h
+// Paciente *insereNoFinalPaciente(Paciente *p, Paciente pnovo){
+//     Paciente *novo = (Paciente *)malloc(sizeof(Paciente));
+//     strcpy(novo->nome, pnovo.nome);
+//     novo->idade = pnovo.idade;
+//     strcpy(novo->doenca, pnovo.doenca);
+//     novo->prox = NULL;
+//     if(p == NULL){
+//         return novo;
+//     }
+//     Paciente *atual = p;
+//     Paciente *ant = p;
+//     while(atual != NULL){
+//         ant = atual;
+//         atual = atual->prox;
+//     }
+//     ant->prox = novo;
+//     return p;
+// }
 
-Lista *criaLista(void)
+Paciente *inserePacienteOrdenado(Paciente *p, Paciente pnovo)
 {
-    return NULL;
-}
-
-int lst_vazia(Lista *l)
-{
-    if (l == NULL)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-Lista *addPaciente(Paciente *paciente, Lista *lista)
-{
-    Lista *novo = (Lista *)malloc(sizeof(Lista));
+    Paciente *novo = (Paciente *)malloc(sizeof(Paciente));
     if (novo == NULL)
     {
-        printf("Memoria insuficiente \n");
+        printf("Erro ao alocar memoria\n");
         exit(1);
     }
-    novo->paciente = paciente;
-    novo->prox = lista;
-    
-    printf("Paciente %s cadastrado com sucesso\n", paciente->nome);
-    escreverPaciente(paciente);
-    
-    return novo;
+    strcpy(novo->nome, pnovo.nome);
+    novo->idade = pnovo.idade;
+    strcpy(novo->doenca, pnovo.doenca);
+    novo->prox = NULL;
+
+    if (p == NULL || strcmp(p->nome, novo->nome) > 0)
+    {
+        novo->prox = p;
+        return novo;
+    }
+
+    Paciente *ant = NULL;
+    Paciente *atual = p;
+
+    while (atual != NULL && strcmp(atual->nome, pnovo.nome) < 0)
+    {
+        ant = atual;
+        atual = atual->prox;
+    }
+
+    ant->prox = novo;
+    novo->prox = atual;
+
+    return p;
 }
 
-void removePaciente(Lista **lista)
+//revisei
+void imprimePacientes(Paciente *p)
 {
-    char nomePaciente[50];
-
-    printf("\nInforme o nome do paciente que deseja remover: ");
-    scanf(" %[^\n]", nomePaciente);
-
-    Lista *ant = NULL;
-    Lista *p = *lista;
-    while (p != NULL && strcmp(p->paciente->nome, nomePaciente) != 0)
+    if (p == NULL)
     {
+        printf("Lista vazia\n");
+        return;
+    }
+
+    Paciente *aux = p;
+    while (aux != NULL)
+    {
+        printf("Paciente: %s, idade: %d, doenca: %s\n", aux->nome, aux->idade, aux->doenca);
+        aux = aux->prox;
+    }
+}
+//revisada
+Paciente *removePaciente(Paciente *lista, char *nome)
+{
+    Paciente *ant = NULL;
+    Paciente *p = lista;
+
+    while(strcmp(p->nome, nome) != 0){
+        if(p == NULL){
+            return lista;
+        }
         ant = p;
         p = p->prox;
     }
-    if (p == NULL)
-    {
-        printf("Paciente nao encontrado \n");
-        return;
-    }
-    if (ant == NULL)
-    {
-        *lista = p->prox;
-    }
-    else
-    {
+    if(ant == NULL){
+        lista = p->prox;
+    }else{
         ant->prox = p->prox;
     }
     free(p);
-    printf("Paciente %s removido com sucesso\n", nomePaciente);
+    return lista;
 
-    reescreverArquivo(*lista);
+    // while (p != NULL && strcmp(p->nome, nome) != 0)
+    // {
+    //     if (p == NULL)
+    //     {
+    //         return lista;
+    //     }
+    //     ant = p;
+    //     p = p->prox;
+    // }
+    // if (ant == NULL)
+    // {
+    //     lista = p->prox;
+    // }
+    // else
+    // {
+    //     ant->prox = p->prox;
+    // }
+    // free(p);
+    // return lista;
 }
-
-void reescreverArquivo(Lista *lista) {
-    FILE *arquivo = fopen("CadClinica.txt", "w"); // Abrir o arquivo em modo de escrita, isso vai limpar o arquivo atual
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo para reescrita\n");
-        return;
-    }
-
-    while (lista != NULL) {
-        fprintf(arquivo, "Nome do Paciente: %s\n", lista->paciente->nome);
-        fprintf(arquivo, "Idade: %d\n", lista->paciente->idade);
-        fprintf(arquivo, "Doenca: %s\n\n", lista->paciente->doenca);
-        lista = lista->prox;
-    }
-
-    fclose(arquivo);
-}
-
-void editPaciente(Lista *lista)
-{   
-    if (lst_vazia(lista) == 1)
-    {
-        printf("Lista vazia\n");
-        return;
-    }
-    char nome[50];
-    int opc;
-    printf("\nInforme o nome do paciente que deseja editar: ");
-    scanf(" %[^\n]", nome);
-
-    Lista *ant = NULL;
-    Lista *p = lista;
-    while (p != NULL && strcmp(p->paciente->nome, nome) != 0)
-    {
-        ant = p;
-        p = p->prox;
-    }
-    if (p == NULL)
-    {
-        printf("Paciente nao encontrado \n");
-        return;
-    }
-    printf("Paciente encontrado: \n");
-    printf("Nome: %s\n", p->paciente->nome);
-    printf("Idade: %d\n", p->paciente->idade);
-    printf("Doenca: %s\n", p->paciente->doenca);
-    do
-    {
-        printf("Escolha uma opcao: \n");
-        printf("1 - Editar nome\n");
-        printf("2 - Editar idade\n");
-        printf("3 - Editar doenca\n");
-        printf("0 - Sair\n");
-        printf("Digite a opcao desejada: ");
-        scanf(" %d", &opc);
-        switch(opc)
-        {
-            case 1:
-                printf("Digite o novo nome do paciente: ");
-                scanf(" %[^\n]", p->paciente->nome);
-                printf("Nome alterado com sucesso\n");
-                break;
-            case 2:
-                printf("Digite a nova idade do paciente: ");
-                scanf(" %d", &p->paciente->idade);
-                printf("Idade alterada com sucesso\n");
-                break;
-            case 3:
-                printf("Digite a nova doenca do paciente: ");
-                scanf(" %[^\n]", p->paciente->doenca);
-                printf("Doenca alterada com sucesso\n");
-                break;
-            case 0:
-                printf("Saindo...\n");
-                break;
-            default:
-                printf("Opcao invalida\n");
-        }
-    } while (opc != 0);
-    printf("Paciente editado com sucesso\n");
-    printf("Nome: %s\n", p->paciente->nome);
-    printf("Idade: %d\n", p->paciente->idade);
-    printf("Doenca: %s\n", p->paciente->doenca);
-
-    reescreverArquivo(lista);
-}
-
-void buscaPaciente(Lista *lista)
+//revisada
+Paciente *editarPaciente(Paciente *lista, char *nome)
 {
-    Lista *p;
-    char nome[50];
-
-    if (lst_vazia(lista) == 1)
-    {
-        printf("Lista vazia\n");
-        return;
-    }
-
-    printf("Buscando paciente\n");
-    printf("Informe o nome do paciente: ");
-    scanf(" %[^\n]", nome);
-
+    Paciente *p;
+    int opc = 1;
     for (p = lista; p != NULL; p = p->prox)
     {
-        if (strcmp(p->paciente->nome, nome) == 0)
-        {
-            printf("Paciente encontrado: \n");
-            printf("Nome: %s\n", p->paciente->nome);
-            printf("Idade: %d\n", p->paciente->idade);
-            printf("Doenca: %s\n", p->paciente->doenca);
-            return;
+        if (strcmp(p->nome, nome) == 0)
+        {   
+            printf("Nome: %s, idade: %d, doenca: %s\n", p->nome, p->idade, p->doenca);
+            do
+            {
+                printf("[1] - Editar nome\n[2] - Editar idade\n[3] - Editar doenca\n[0] - Sair\n");
+                scanf("%d", &opc);
+                if (opc == 0)
+                {
+                    break;
+                }
+                switch (opc)
+                {
+                case 1:
+                    printf("Digite o novo nome do paciente: ");
+                    scanf(" %[^\n]", p->nome);
+                    break;
+                case 2:
+                    printf("Digite a nova idade do paciente: ");
+                    scanf("%d", &p->idade);
+                    break;
+                case 3:
+                    printf("Digite a nova doenca do paciente: ");
+                    scanf(" %[^\n]", p->doenca);
+                    break;
+                default:
+                    printf("Opcao invalida\n");
+                    break;
+                }
+            } while (opc != 0);
+
+            return lista;
         }
     }
-    printf("Paciente nao encontrado \n");
+    printf("Paciente nao encontrado\n");
+    return lista;
 }
-
-void listPacientes(Lista *lista)
-{  
-    if (lst_vazia(lista) == 1)
-    {
-        printf("Lista vazia\n");
-        return;
-    }
-
-    Lista *p;
+//revisada
+Paciente *buscaPaciente(Paciente *lista, char *nome){
+    Paciente *p;
     for (p = lista; p != NULL; p = p->prox)
     {
-        printf("Nome: %s\n", p->paciente->nome);
-        printf("Idade: %d\n", p->paciente->idade);
-        printf("Doenca: %s\n", p->paciente->doenca);
+        if (strcmp(p->nome, nome) == 0)
+        {
+            return p;
+        }
     }
-}
-
-void escreverPaciente(Paciente *paciente)
-{
-    // abrir arquivo para escrita
-
-    FILE *arquivo;
-    arquivo = fopen("CadClinica.txt", "a");
-
-    fprintf(arquivo, "Nome do Paciente: %s\nIdade: %d\nDoenca: %s\n \n", paciente->nome, paciente->idade, paciente->doenca);
-    fclose(arquivo);
-}
-
-Lista *addPacienteArquivo(char *nome, char *doenca, int idade, Lista *lista)
-{
-    Lista *novo = (Lista *)malloc(sizeof(Lista));
-    if (novo == NULL)
-    {
-        printf("Memoria insuficiente\n");
-        exit(1);
-    }
-
-    // Aloca memória para o paciente
-    novo->paciente = (Paciente *)malloc(sizeof(Paciente));
-    if (novo->paciente == NULL)
-    {
-        printf("Memoria insuficiente\n");
-        free(novo);
-        exit(1);
-    }
-
-    // Agora, copiamos os valores para o novo paciente diretamente
-    strcpy(novo->paciente->nome, nome);
-    strcpy(novo->paciente->doenca, doenca);
-    novo->paciente->idade = idade;
-    novo->prox = lista; // Faz o novo nó apontar para a cabeça atual da lista
-
-    return novo; // Retorna a nova cabeça da lista
-}
-
-void lerArquivo(FILE *arquivo_client, Lista **listaPacientes)
-{   
-    char nome[50], doenca[50];
-    int idade;
-
-    while (fscanf(arquivo_client, " Nome do Paciente: %49[^\n]\nIdade: %d\nDoenca: %49[^\n]\n", nome, &idade, doenca) != EOF)
-    {
-        *listaPacientes = addPacienteArquivo(nome, doenca, idade, *listaPacientes);
-        fscanf(arquivo_client, "\n");
-    }
+    return NULL;
 }

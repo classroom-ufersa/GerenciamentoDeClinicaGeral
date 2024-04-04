@@ -1,89 +1,65 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
 #include "TAD medicos/medicos.c"
-#include "TAD pacientes/pacientes.c"
 
-int lerOpcao() {
-    char opcao[10];
-    printf("Digite a opcao desejada: ");
-    scanf("%9s", opcao);
-
-    for (int i = 0; opcao[i] != '\0'; i++) {
-        if (!isdigit(opcao[i])) {
-            printf("Opcao invalida. Por favor, digite um numero correspondente a uma das opcoes do menu.\n");
-            return -1;
-        }
-    }
-
-    int escolha = atoi(opcao);
-    return escolha;
-}
-
-int main(void) {
-    int opcao;
-    Lista *listaPacientes = criaLista();
-    ListaMedicos *listaMedicos = criaListaMedicos();
+int main(void)
+{   
+    int opc;
+    Paciente p;
     char nomeMedico[50];
+    char localDoArquivo[50];
+    strcpy(localDoArquivo, "dados.txt");
+    Medico *listaMedicos = NULL;
+    listaMedicos = lerArquivo(localDoArquivo, listaMedicos);
+    Medico m;
+    do{
+        menu();
+        printf("Digite a opcao desejada: ");
+        scanf("%d", &opc);
 
-    FILE *arq = fopen("CadClinica.txt", "r");
-    if (arq == NULL) {
-        printf("Erro ao abrir o arquivo\n");
-        exit(1);
-    }
-
-    lerArquivo(arq, &listaPacientes);
-
-    do {
-        printf("\t\nBem vindo a Clinica\n\n");
-        printf("Escolha uma opcao: \n");
-        printf("1 - Cadastro medico\n");
-        printf("2 - Remover medico\n");
-        printf("3 - Cadastro paciente\n");
-        printf("4 - Remover paciente\n");
-        printf("5 - Editar cadastro de paciente\n");
-        printf("6 - Buscar por paciente\n");
-        printf("7 - Listar medicos e seus pacientes\n");
-        printf("8 - Listar pacientes\n");
-        printf("0 - Sair\n");
-
-        opcao = lerOpcao();
-
-        switch (opcao) {
+        switch(opc){
             case 1:
-                listaMedicos = addMedicoLista(preencheMedico(), listaMedicos);
+                m = preencheMedico();
+                listaMedicos = insereOrdenado(listaMedicos, m);
+                escreveArquivo(listaMedicos, localDoArquivo);
                 break;
             case 2:
                 printf("Digite o nome do medico que deseja remover: ");
                 scanf(" %[^\n]", nomeMedico);
-                removeMedico(nomeMedico, &listaMedicos);
+                listaMedicos = removeMedico(listaMedicos, nomeMedico);
+                escreveArquivo(listaMedicos, localDoArquivo);
                 break;
             case 3:
-                listaPacientes = addPaciente(preenchePaciente(), listaPacientes);
+                listaMedicos = cadastroPaciente(listaMedicos);
+                escreveArquivo(listaMedicos, localDoArquivo);
                 break;
             case 4:
-                removePaciente(&listaPacientes);
+                removePacienteDoMedico(listaMedicos);
+                escreveArquivo(listaMedicos, localDoArquivo);
                 break;
             case 5:
-                editPaciente(listaPacientes);
+                imprimeMedicos(listaMedicos);
                 break;
             case 6:
-                buscaPaciente(listaPacientes);
+                printf("Qual e o medico do paciente que deseja editar: ");
+                scanf(" %[^\n]", nomeMedico);
+                printf("qual e o nome do paciente que deseja editar: ");
+                scanf(" %[^\n]", p.nome);
+                listaMedicos = editarPacientePorMedico(listaMedicos, nomeMedico, p.nome);
+                escreveArquivo(listaMedicos, localDoArquivo);
                 break;
             case 7:
-                // Adicione aqui a opção para listar médicos e seus pacientes
+                printf("Qual o e o Medico do paciente:");
+                scanf(" %[^\n]", nomeMedico);
+                printf("Qual e o nome do paciente que deseja buscar: ");
+                scanf(" %[^\n]", p.nome);
+                buscaPacientePorMedico(listaMedicos, nomeMedico, p.nome);
                 break;
             case 8:
-                listPacientes(listaPacientes);
-                break;
-            case 0:
-                break;
-            default:
-                printf("Opcao invalida. Por favor, escolha uma das opcoes do menu.\n");
+                printf("Saindo...\n");
                 break;
         }
-    } while (opcao != 0);
+    }while(opc != 8); 
+
+
 
     return 0;
 }

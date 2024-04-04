@@ -1,82 +1,24 @@
-/* TAD: Define um paciente*/
-typedef struct paciente
-{
-   char nome[50];
-   int idade;
-   char doenca[50];
-} Paciente;
+#ifndef PACIENTES_H
+#define PACIENTES_H
 
-typedef struct lista Lista;
+#include "../sistema.c"
 
-typedef struct lista
-{
-   Paciente *paciente;
-   Lista *prox;
-} Lista;
+typedef struct paciente Paciente;
 
-/* Funcao preenche os dados do paciente
-   nao recebe parametros
-   Retorna um paciente
+/* 
 */
-Paciente *preenchePaciente(void);
+Paciente preenchePaciente();
 
-/* Funcao que cria uma lista encadeada de pacientes
-   Retorna a lista
-*/
-Lista *criaLista(void);
+//Paciente *insereNoFinalPaciente(Paciente *p, Paciente pnovo);
 
-/* Funcao que insere um paciente na lista
-   Recebe um paciente e uma lista
-   Retorna a lista com o paciente inserido
-*/
-Lista *addPaciente(Paciente *paciente, Lista *lista);
+Paciente *inserePacienteOrdenado(Paciente *p, Paciente pnovo);
 
-/*  Funcao para remover paciente
-    Recebe uma lista encadeada de pacientes
- */
-void removePaciente(Lista **lista);
+void imprimePacientes(Paciente *p);
 
-/*  funcao que edita o cadastro do paciente
-    recebe uma lista encadeada de pacientes
-    retorna o paciente com as informacoes editadas
-*/
-void editPaciente(Lista *lista);
+Paciente *removePaciente(Paciente *lista, char *nome);
 
-/*  funcao que vai buscar paciente na lista
-    recebe o nome do paciente e a lista
-    retorna o paciente com o nome buscado
-*/
-void buscaPaciente(Lista *lista);
+Paciente *editarPaciente(Paciente *lista, char *nome);
 
-/* Funcao que verifica se a lista esta vazia
-   Recebe a lista
-   Retorna 1 se a lista estiver vazia e 0 se nao estiver
-*/
-int lst_vazia(Lista *l);
+Paciente *buscaPaciente(Paciente *lista, char *nome);
 
-/* Funcao que imprime a lista encadeda de pacientes
-   Recebe a lista
-*/
-void listPacientes(Lista *lista);
-
-/* Funcao que le um arquivo
-   Recebe o arquivo
-   Retorna a lista encadeada de pacientes
-*/
-void escreverArquivo(Lista *lista);
-
-/* Funcao que escreve no arquivo
-   Recebe o pacinete e escreve no arquivo
-*/
-void escreverPaciente(Paciente *paciente);
-
-/* Funcao que le um arquivo
-   Recebe a lista encadeada de pacientes
-   ler o arquivo e insere na lista
-*/
-void lerArquivo(FILE *arquivo_client, Lista **listaPacientes);
-
-/* função recebe a lista encadeada de pacientes e reescreve o arquivo
-   com as informações atualizadas
-*/
-void reescreverArquivo(Lista *lista);
+#endif // PACIENTES_H
