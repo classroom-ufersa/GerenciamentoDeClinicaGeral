@@ -1,6 +1,6 @@
 <div>
   <div id="nav-bar">
-    <img align="right" width="110" height="170" src="https://assecom.ufersa.edu.br/wp-content/uploads/sites/24/2014/09/PNG-bras%C3%A3o-Ufersa.png">
+    <img align="right" width="110" height="170" src="img/PNG-brasão-Ufersa.png">
     <br>
     <h1 align="center" style="font-weight: bold;">Gerenciamento De Clínica Geral</h1>
     <p align="center">
@@ -21,7 +21,7 @@
 
   <div>
     <h2 id="tech" style="font-weight: bold; font-size: 2rem">Tecnologia Utilizada</h2>
-    <img width="120" height="120" alt="C" src="img/logo_C.png"/>
+    <img width="110" height="110" alt="C" src="img/logo_C.png"/>
   </div>
 
   <h2 id="about" style="font-weight: bold; font-size: 2rem">Sobre o Projeto</h2>
@@ -44,6 +44,7 @@
   └─── img/
           │
           ├──logo_C.png
+          ├──PNG-brasão-Ufersa.png
   │
   └─── include/
           │
