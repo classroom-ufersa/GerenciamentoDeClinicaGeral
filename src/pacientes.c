@@ -23,25 +23,6 @@ Paciente preenchePaciente()
     p.prox = NULL;
     return p;
 }
-//colocar no .h
-// Paciente *insereNoFinalPaciente(Paciente *p, Paciente pnovo){
-//     Paciente *novo = (Paciente *)malloc(sizeof(Paciente));
-//     strcpy(novo->nome, pnovo.nome);
-//     novo->idade = pnovo.idade;
-//     strcpy(novo->doenca, pnovo.doenca);
-//     novo->prox = NULL;
-//     if(p == NULL){
-//         return novo;
-//     }
-//     Paciente *atual = p;
-//     Paciente *ant = p;
-//     while(atual != NULL){
-//         ant = atual;
-//         atual = atual->prox;
-//     }
-//     ant->prox = novo;
-//     return p;
-// }
 
 Paciente *inserePacienteOrdenado(Paciente *p, Paciente pnovo)
 {
@@ -77,7 +58,6 @@ Paciente *inserePacienteOrdenado(Paciente *p, Paciente pnovo)
     return p;
 }
 
-//revisei
 void imprimePacientes(Paciente *p)
 {
     if (p == NULL)
@@ -93,7 +73,7 @@ void imprimePacientes(Paciente *p)
         aux = aux->prox;
     }
 }
-//revisada
+
 Paciente *removePaciente(Paciente *lista, char *nome)
 {
     Paciente *ant = NULL;
@@ -113,28 +93,8 @@ Paciente *removePaciente(Paciente *lista, char *nome)
     }
     free(p);
     return lista;
-
-    // while (p != NULL && strcmp(p->nome, nome) != 0)
-    // {
-    //     if (p == NULL)
-    //     {
-    //         return lista;
-    //     }
-    //     ant = p;
-    //     p = p->prox;
-    // }
-    // if (ant == NULL)
-    // {
-    //     lista = p->prox;
-    // }
-    // else
-    // {
-    //     ant->prox = p->prox;
-    // }
-    // free(p);
-    // return lista;
 }
-//revisada
+
 Paciente *editarPaciente(Paciente *lista, char *nome)
 {
     Paciente *p;
@@ -178,7 +138,7 @@ Paciente *editarPaciente(Paciente *lista, char *nome)
     printf("Paciente nao encontrado\n");
     return lista;
 }
-//revisada
+
 Paciente *buscaPaciente(Paciente *lista, char *nome){
     Paciente *p;
     for (p = lista; p != NULL; p = p->prox)

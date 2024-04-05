@@ -12,8 +12,6 @@ int main(void)
     Medico m;
     do{
         menu();
-        // printf("Digite a opcao desejada: ");
-        // scanf("%d", &opc);
         opc = leropcao();
 
         switch(opc){

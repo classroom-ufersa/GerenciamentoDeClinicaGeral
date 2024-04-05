@@ -8,7 +8,7 @@ struct medico
   char disponibilidade[50];
   Medico *prox;
 };
-//revisada
+
 Medico *cadastroPaciente(Medico *lista)
 {
   char nomeMedico[50];
@@ -31,7 +31,7 @@ Medico *cadastroPaciente(Medico *lista)
   aux->pacientes = inserePacienteOrdenado(aux->pacientes, p);
   return lista;
 }
-//revisei
+
 Medico *buscaMedico(Medico *lista, char *nome)
 {
   Medico *p;
@@ -44,7 +44,7 @@ Medico *buscaMedico(Medico *lista, char *nome)
   }
   return NULL;
 }
-//revisei
+
 Medico preencheMedico()
 {
   Medico m;
@@ -58,7 +58,7 @@ Medico preencheMedico()
   m.prox = NULL;
   return m;
 }
-//revisei
+
 Medico *insereOrdenado(Medico *lista, Medico m)
 {
   Medico *novo = (Medico *)malloc(sizeof(Medico));
@@ -92,7 +92,7 @@ Medico *insereOrdenado(Medico *lista, Medico m)
 
   return lista;
 }
-//revisei
+
 void imprimeMedicos(Medico *lista)
 {
   if (lista == NULL)
@@ -124,7 +124,6 @@ Medico *removePacienteDoMedico(Medico *lista)
   char nomePaciente[50];
   printf("Qual o paciente que voce deseja remover?");
   scanf(" %[^\n]s", nomePaciente);
-  //mudar dos pra linha de cima
   Medico *aux = buscaMedico(lista, nomeMedico);
   if (aux == NULL)
   {
@@ -134,7 +133,7 @@ Medico *removePacienteDoMedico(Medico *lista)
   aux->pacientes = removePaciente(aux->pacientes, nomePaciente);
   return lista;
 }
-//revisada
+
 Medico *editarPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePaciente)
 {
   Medico *aux = buscaMedico(lista, nomeMedico);
@@ -146,7 +145,7 @@ Medico *editarPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePacie
   aux->pacientes = editarPaciente(aux->pacientes, nomePaciente);
   return lista;
 }
-//revisada
+
 Medico *removeMedico(Medico *lista, char *nome)
 {
   Medico *ant = NULL;
@@ -172,7 +171,7 @@ Medico *removeMedico(Medico *lista, char *nome)
   printf("Medico %s removido com sucesso\n", nome);
   return lista;
 }
-//revisada
+
 void buscaPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePaciente)
 {
   Medico *aux = buscaMedico(lista, nomeMedico);
@@ -189,8 +188,6 @@ void buscaPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePaciente)
   }
   imprimePacientes(p);
 }
-
-//funções de arquivos causando erros
 
 void escreveArquivo(Medico *lista, char *localDoArquivo){
   FILE *arquivo = fopen(localDoArquivo, "wt");
@@ -243,35 +240,3 @@ Medico *lerArquivo(char *localDoArquivo, Medico *lista)
   fclose(arquivo);
   return lista;
 }
-
-// Medico *lerArquivo(char *localDoArquivo, Medico *lista)
-// {
-//   FILE *arquivo = fopen(localDoArquivo, "r");
-//   if (arquivo == NULL)
-//   {
-//     perror("Erro ao abrir o arquivo");
-//     exit(1);
-//   }
-//   char linha[200];
-//   Medico *m = NULL;
-//   while (fgets(linha, 200, arquivo) != NULL)
-//   {
-//     if (strstr(linha, "Medico:") != NULL)
-//     {
-//       m = (Medico*)malloc(sizeof(Medico));
-//       sscanf(linha, "Medico:%s\t%s\t%s\n", m->nome, m->especialidade, m->disponibilidade);
-//       m->prox = lista;
-//       m->pacientes = NULL;
-//       lista = m;
-//     }
-//     else if (strstr(linha, "Paciente:") != NULL && m != NULL)
-//     {
-//       Paciente p;
-//       sscanf(linha, "Paciente:%s\t%d\t%s\n", p.nome, &p.idade, p.doenca);
-//       m->pacientes = insereNoFinalPaciente(m->pacientes, p);
-//     }
-//     insereOrdenado(lista, *m);
-//   }
-//   fclose(arquivo);
-//   return lista;
-// }
