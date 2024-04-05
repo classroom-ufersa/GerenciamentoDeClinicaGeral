@@ -37,3 +37,19 @@ void menu(){
         printf("[7] - Buscar paciente\n");
         printf("[8] - Sair\n");
 }
+
+int leropcao() {
+    char opcao[10];
+    printf("Digite a opcao desejada: ");
+    scanf("%s", opcao);
+
+    for (int i = 0; opcao[i] != '\0'; i++) {
+        if (!isdigit(opcao[i])) {
+            printf("Opcao invalida. Digite um numero correspondente com as opcoes do menu.\n");
+            return -1;
+        }
+    }
+
+    int escolha = atoi(opcao);
+    return escolha;
+}

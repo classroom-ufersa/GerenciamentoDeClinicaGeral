@@ -1,4 +1,4 @@
-#include "medicos.h"
+#include "../includes/medicos.h"
 
 struct medico
 {
@@ -119,10 +119,10 @@ Medico *removePacienteDoMedico(Medico *lista)
   }
   imprimeMedicos(lista);
   char nomeMedico[50];
-  printf("Qual o medico?");
+  printf("Qual o medico do paciente que voce deseja remover?");
   scanf(" %[^\n]s", nomeMedico);
   char nomePaciente[50];
-  printf("Qual o paciente?");
+  printf("Qual o paciente que voce deseja remover?");
   scanf(" %[^\n]s", nomePaciente);
   //mudar dos pra linha de cima
   Medico *aux = buscaMedico(lista, nomeMedico);

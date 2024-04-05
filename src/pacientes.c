@@ -1,4 +1,4 @@
-#include "pacientes.h"
+#include "../includes/pacientes.h"
 
 struct paciente
 {

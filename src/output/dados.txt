@@ -1,0 +1,6 @@
+Medico:andrei	clinico geral	8h as 17h
+Paciente:abnoan	44	corte no pe
+Paciente:bruna	20	pontada nas costas
+Paciente:helber rocha	33	braco quebrado
+Medico:gustavo	cardiologista dos bom	15h as 22h
+Paciente:mariana vitoria	19	gripe

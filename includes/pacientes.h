@@ -1,7 +1,7 @@
 #ifndef PACIENTES_H
 #define PACIENTES_H
 
-#include "../sistema.c"
+#include "../src/sistema.c"
 
 typedef struct paciente Paciente;
 

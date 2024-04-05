@@ -1,6 +1,7 @@
 #ifndef MEDICOS_H
 #define MEDICOS_H
-#include "../TAD pacientes/pacientes.c"
+
+#include "../src/pacientes.c"
 
 typedef struct medico Medico;
 

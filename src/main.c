@@ -1,4 +1,4 @@
-#include "TAD medicos/medicos.c"
+#include "../src/medicos.c"
 
 int main(void)
 {   
@@ -12,8 +12,9 @@ int main(void)
     Medico m;
     do{
         menu();
-        printf("Digite a opcao desejada: ");
-        scanf("%d", &opc);
+        // printf("Digite a opcao desejada: ");
+        // scanf("%d", &opc);
+        opc = leropcao();
 
         switch(opc){
             case 1:
