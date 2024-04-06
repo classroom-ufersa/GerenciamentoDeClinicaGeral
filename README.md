@@ -36,6 +36,10 @@
 
   Remoção de Cadastros: Oferece a opção de remover cadastros do sistema, seja para pacientes que optaram por outra clínica ou médicos que não fazem mais parte do corpo clínico.
 
+  Consulta e Gestão de Informações: Proporciona uma interface amigável para visualização e gerenciamento das informações cadastradas, possibilitando um acesso facilitado aos dados necessários para a administração da clínica.
+
+  Busca de Pacientes: Implementa uma funcionalidade de busca eficiente para localizar rapidamente registros de pacientes usando o nome como forma de busca.
+
   ## Organização do Repositório
 
   ``` 
@@ -67,16 +71,14 @@
 
   ## Como rodar na minha maquina?
 
-  
-
   Clone o repositorio na sua maquina:
 
   ```bash
   git clone https://github.com/classroom-ufersa/GerenciamentoDeClinicaGeral.git
   ```
 
-  Para executar, certifique-se de que você possui um compilador C instalado na sua máquina, então navegue até onde o projeto está localizado. Você pode fazer isso usando o comando cd. 
-  
+  Para executar, certifique-se de que você possui um compilador C instalado na sua máquina, então navegue até onde o projeto está localizado. Você pode fazer isso usando o comando cd.
+
   No terminal use este comando:
 
   ```c
@@ -104,6 +106,6 @@
           </a>
         </td>
     </table>
-    Um agradecimento especial a todas as pessoas que contribuíram para este projeto.
+   <span style="font-weight: bold;">Um agradecimento especial a todas as pessoas que contribuíram para este projeto.</span>
   </div>
 </div>
