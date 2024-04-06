@@ -32,3 +32,60 @@ void menu();
  * @return A opção escolhida pelo usuário.
  */
 int leropcao();
+
+/**
+ * Função para verificar se uma string é válida.
+ * 
+ * @param entrada - A string a ser verificada.
+ * 
+ * @return 1 se a string for válida, 0 caso contrário.
+ */
+int isStringValida(const char *entrada);
+
+/**
+ * Função para verificar se um número é válido.
+ * 
+ * @param entrada - O número a ser verificado.
+ * 
+ * @return 1 se o número for válido, 0 caso contrário.
+ */
+int isNumeroValido(const char *entrada);
+
+/**
+ * Função para verificar se a disponibilidade de um médico é válida.
+ * 
+ * @param disponibilidade - A disponibilidade a ser verificada.
+ * 
+ * @return 1 se a disponibilidade for válida, 0 caso contrário.
+ */
+int isDisponibilidadeMedicoValida(const char *disponibilidade);
+
+/**
+ * Função para ler a idade de um paciente.
+ * 
+ * @return A idade do paciente.
+ */
+int lerIdadePaciente();
+
+/**
+ * Função para tratar o nome de um médico e de um paciente para edição.
+ * 
+ * @param nomeMedico - O nome do médico a ser tratado.
+ * @param nomePaciente - O nome do paciente a ser tratado.
+ */
+void tratarNomeEditar(char *nomeMedico, char *nomePaciente);
+
+/**
+ * Função para tratar o nome de um médico e de um paciente para busca.
+ * 
+ * @param nomeMedico - O nome do médico a ser tratado.
+ * @param nomePaciente - O nome do paciente a ser tratado.
+ */
+void tratarNomeBuscar(char *nomeMedico, char *nomePaciente);
+
+/**
+ * Função para tratar o nome de um médico para remoção.
+ * 
+ * @param nomeMedico - O nome do médico a ser tratado.
+ */
+void tratarNomeRemover(char *nomeMedico);

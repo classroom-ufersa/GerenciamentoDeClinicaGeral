@@ -8,18 +8,28 @@ struct paciente
     Paciente *prox;
 };
 
-Paciente preenchePaciente()
-{
+Paciente preenchePaciente() {
     Paciente p;
-    printf("Digite o nome do paciente: ");
-    scanf(" %[^\n]s", p.nome);
-    LimpaBuffer();
-    printf("Digite a idade do paciente: ");
-    scanf("%d", &p.idade);
-    LimpaBuffer();
-    printf("Digite a doenca do paciente: ");
-    scanf(" %[^\n]s", p.doenca);
-    LimpaBuffer();
+
+    do {
+        printf("Digite o nome do paciente: ");
+        scanf(" %[^\n]", p.nome);
+        if (!isStringValida(p.nome)) {
+            printf("Nome invalido. Por favor, insira apenas letras e espacos.\n");
+        }
+    } while (!isStringValida(p.nome));
+
+    p.idade = lerIdadePaciente();
+
+    
+    do {
+        printf("Digite a doenca do paciente: ");
+        scanf(" %[^\n]", p.doenca);
+        if (!isStringValida(p.doenca)) {
+            printf("Doenca invalida. Por favor, insira apenas letras e espacos.\n");
+        }
+    } while (!isStringValida(p.doenca));
+
     p.prox = NULL;
     return p;
 }

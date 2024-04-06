@@ -9,27 +9,44 @@ struct medico
   Medico *prox;
 };
 
-Medico *cadastroPaciente(Medico *lista)
-{
-  char nomeMedico[50];
-  printf("Digite o nome do medico: ");
-  scanf(" %[^\n]", nomeMedico);
-  Medico *aux = buscaMedico(lista, nomeMedico);
-  Paciente p;
-  if (aux == NULL)
-  {
-    printf("Medico nao cadastrado, vamos cadastrar\n");
-    Medico m = preencheMedico();
-    lista = insereOrdenado(lista, m);
-    printf("Agora insira os dados do paciente\n");
-    p = preenchePaciente();
-    aux = buscaMedico(lista, nomeMedico);
-    aux->pacientes = inserePacienteOrdenado(aux->pacientes, p);
+Medico *cadastroPaciente(Medico *lista) {
+    char nomeMedico[50];
+    Medico *aux;
+
+    do {
+        printf("Digite o nome do medico: ");
+        scanf(" %[^\n]", nomeMedico);
+        getchar(); 
+
+        if (!isStringValida(nomeMedico)) {
+            printf("Nome do medico invalido. Por favor, insira apenas letras e espacos.\n");
+        } else {
+            aux = buscaMedico(lista, nomeMedico);
+
+            if (aux == NULL) {
+                printf("Medico nao cadastrado, vamos cadastrar.\n");
+                Medico m = preencheMedico();
+                lista = insereOrdenado(lista, m);
+            }
+
+            break; 
+        }
+    } while (1); 
+
+    Paciente p;
+
+    if (aux == NULL) {
+        printf("Agora insira os dados do paciente.\n");
+        p = preenchePaciente();
+        aux = buscaMedico(lista, nomeMedico);
+        aux->pacientes = inserePacienteOrdenado(aux->pacientes, p);
+    } else {
+        printf("Agora insira os dados do paciente.\n");
+        p = preenchePaciente();
+        aux->pacientes = inserePacienteOrdenado(aux->pacientes, p);
+    }
+
     return lista;
-  }
-  p = preenchePaciente();
-  aux->pacientes = inserePacienteOrdenado(aux->pacientes, p);
-  return lista;
 }
 
 Medico *buscaMedico(Medico *lista, char *nome)
@@ -45,18 +62,36 @@ Medico *buscaMedico(Medico *lista, char *nome)
   return NULL;
 }
 
-Medico preencheMedico()
-{
-  Medico m;
-  printf("Digite o nome do medico: ");
-  scanf(" %[^\n]s", m.nome);
-  printf("Digite a especialidade do medico: ");
-  scanf(" %[^\n]s", m.especialidade);
-  printf("Digite a disponibilidade do medico: ");
-  scanf(" %[^\n]s", m.disponibilidade);
-  m.pacientes = NULL;
-  m.prox = NULL;
-  return m;
+Medico preencheMedico() {
+    Medico m;
+
+    do {
+        printf("Digite o nome do medico: ");
+        scanf(" %[^\n]", m.nome);
+        if (!isStringValida(m.nome)) {
+            printf("Nome invalido. Por favor, insira apenas letras e espacos.\n");
+        }
+    } while (!isStringValida(m.nome));
+
+    do {
+        printf("Digite a especialidade do medico: ");
+        scanf(" %[^\n]", m.especialidade);
+        if (!isStringValida(m.especialidade)) {
+            printf("Especialidade invalida. Por favor, insira apenas letras e espacos.\n");
+        }
+    } while (!isStringValida(m.especialidade));
+
+    do {
+        printf("Digite a disponibilidade do medico (formato exemplo: 15h as 20h): ");
+        scanf(" %[^\n]", m.disponibilidade);
+        if (!isDisponibilidadeMedicoValida(m.disponibilidade)) {
+            printf("Disponibilidade invalida. Por favor, insira no formato correto (ex: 15h as 20h).\n");
+        }
+    } while (!isDisponibilidadeMedicoValida(m.disponibilidade));
+
+    m.pacientes = NULL;
+    m.prox = NULL;
+    return m;
 }
 
 Medico *insereOrdenado(Medico *lista, Medico m)
@@ -110,28 +145,49 @@ void imprimeMedicos(Medico *lista)
   }
 }
 
-Medico *removePacienteDoMedico(Medico *lista)
-{
-  if (lista == NULL)
-  {
-    printf("Lista vazia\n");
+Medico *removePacienteDoMedico(Medico *lista) {
+    if (lista == NULL) {
+        printf("Lista vazia\n");
+        return lista;
+    }
+
+    imprimeMedicos(lista);
+
+    char nomeMedico[50];
+    char nomePaciente[50];
+
+    do {
+        printf("Qual o medico do paciente que voce deseja remover? ");
+        scanf(" %[^\n]", nomeMedico);
+        getchar(); 
+
+        if (!isStringValida(nomeMedico)) {
+            printf("Nome do medico invalido. Por favor, insira apenas letras e espacos.\n");
+        } else {
+            break; 
+        }
+    } while (1); 
+
+    do {
+        printf("Qual o paciente que voce deseja remover? ");
+        scanf(" %[^\n]", nomePaciente);
+        getchar(); 
+
+        if (!isStringValida(nomePaciente)) {
+            printf("Nome do paciente invalido. Por favor, insira apenas letras e espacos.\n");
+        } else {
+            break; 
+        }
+    } while (1); 
+
+    Medico *aux = buscaMedico(lista, nomeMedico);
+    if (aux == NULL) {
+        printf("Medico nao encontrado\n");
+        return lista;
+    }
+
+    aux->pacientes = removePaciente(aux->pacientes, nomePaciente);
     return lista;
-  }
-  imprimeMedicos(lista);
-  char nomeMedico[50];
-  printf("Qual o medico do paciente que voce deseja remover?");
-  scanf(" %[^\n]s", nomeMedico);
-  char nomePaciente[50];
-  printf("Qual o paciente que voce deseja remover?");
-  scanf(" %[^\n]s", nomePaciente);
-  Medico *aux = buscaMedico(lista, nomeMedico);
-  if (aux == NULL)
-  {
-    printf("Medico não encontrado\n");
-    return lista;
-  }
-  aux->pacientes = removePaciente(aux->pacientes, nomePaciente);
-  return lista;
 }
 
 Medico *editarPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePaciente)
@@ -177,17 +233,18 @@ void buscaPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePaciente)
   Medico *aux = buscaMedico(lista, nomeMedico);
   if (aux == NULL)
   {
-    printf("Medico não encontrado\n");
+    printf("Medico nao encontrado\n");
     return;
   }
   Paciente *p = buscaPaciente(aux->pacientes, nomePaciente);
   if (p == NULL)
   {
-    printf("Paciente não encontrado\n");
+    printf("Paciente nao encontrado\n");
     return;
   }
   imprimePacientes(p);
 }
+
 
 void escreveArquivo(Medico *lista, char *localDoArquivo){
   FILE *arquivo = fopen(localDoArquivo, "wt");
