@@ -1,6 +1,0 @@
-Medico:felipe osorio	as	15h as 20h
-Paciente:kaue	20	gripe
-Paciente:paolo	19	fumar
-Medico:gugu	cardio	15h as 20:30h
-Paciente:samira	22	dor de cabeca
-Medico:joao	bct	15h as 20h
