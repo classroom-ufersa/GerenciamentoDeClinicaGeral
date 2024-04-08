@@ -7,23 +7,23 @@ struct paciente{
     Paciente *prox;
 };
 
-Paciente preenchePaciente() {
+Paciente preenchePaciente(){
     Paciente p;
 
-    do {
+    do{
         printf("Digite o nome do paciente: ");
         scanf(" %[^\n]", p.nome);
-        if (!isStringValida(p.nome)) {
+        if (!isStringValida(p.nome)){
             printf("Nome invalido. Por favor, insira apenas letras e espacos.\n");
         }
     } while (!isStringValida(p.nome));
 
     p.idade = lerIdadePaciente();
 
-    do {
+    do{
         printf("Digite a doenca do paciente: ");
         scanf(" %[^\n]", p.doenca);
-        if (!isStringValida(p.doenca)) {
+        if (!isStringValida(p.doenca)){
             printf("Doenca invalida. Por favor, insira apenas letras e espacos.\n");
         }
     } while (!isStringValida(p.doenca));
@@ -32,7 +32,7 @@ Paciente preenchePaciente() {
     return p;
 }
 
-Paciente *inserePacienteOrdenado(Paciente *p, Paciente pnovo){   
+Paciente *inserePacienteOrdenado(Paciente *p, Paciente pnovo){
 
     Paciente *novo = (Paciente *)malloc(sizeof(Paciente));
     if (novo == NULL){
@@ -60,7 +60,7 @@ Paciente *inserePacienteOrdenado(Paciente *p, Paciente pnovo){
 
     ant->prox = novo;
     novo->prox = atual;
-    
+
     printf("Paciente %s cadastrado com sucesso!\n", novo->nome);
     return p;
 }
@@ -82,27 +82,28 @@ Paciente *removePaciente(Paciente *lista, char *nome){
     Paciente *ant = NULL;
     Paciente *p = lista;
 
-    while(strcmp(p->nome, nome) != 0){
-        if(p == NULL){
+    while (strcmp(p->nome, nome) != 0){
+        if (p == NULL){
             return lista;
         }
         ant = p;
         p = p->prox;
     }
-    if(ant == NULL){
+    if (ant == NULL){
         lista = p->prox;
-    }else{
+    }
+    else{
         ant->prox = p->prox;
     }
     free(p);
     return lista;
 }
 
-Paciente *editarPaciente(Paciente *lista, char *nome){   
+Paciente *editarPaciente(Paciente *lista, char *nome){
     Paciente *p;
     int opc = 1;
     for (p = lista; p != NULL; p = p->prox){
-        if (strcmp(p->nome, nome) == 0){   
+        if (strcmp(p->nome, nome) == 0){
             printf("Nome: %s, idade: %d, doenca: %s\n", p->nome, p->idade, p->doenca);
             do{
                 printf("[1] - Editar nome\n[2] - Editar idade\n[3] - Editar doenca\n[0] - Sair\nDigite a opcao desejada:");
@@ -112,21 +113,26 @@ Paciente *editarPaciente(Paciente *lista, char *nome){
                 }
                 switch (opc){
                 case 1:
-                    printf("Digite o novo nome do paciente: ");
-                    scanf(" %[^\n]", p->nome);
-                    LimpaBuffer();
-                    LimpaTela();
+                    do{
+                        printf("Digite o novo nome do paciente: ");
+                        scanf(" %[^\n]", p->nome);
+                        if (!isStringValida(p->nome)){
+                            printf("Nome invalido. Por favor, insira apenas letras e espacos.\n");
+                        }
+                    } while (!isStringValida(p->nome));
                     break;
                 case 2:
-                    printf("Digite a nova idade do paciente: ");
-                    scanf("%d", &p->idade);
+                    p->idade = lerIdadePaciente();
                     LimpaTela();
                     break;
                 case 3:
-                    printf("Digite a nova doenca do paciente: ");
-                    scanf(" %[^\n]", p->doenca);
-                    LimpaBuffer();
-                    LimpaTela();
+                    do{
+                        printf("Digite a nova doenca do paciente: ");
+                        scanf(" %[^\n]", p->doenca);
+                        if (!isStringValida(p->doenca)){
+                            printf("Doenca invalida. Por favor, insira apenas letras e espacos.\n");
+                        }
+                    } while (!isStringValida(p->doenca));
                     break;
                 default:
                     printf("Opcao invalida\n");
