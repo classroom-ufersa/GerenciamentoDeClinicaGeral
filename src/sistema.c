@@ -3,17 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-#define N_OPCOES 8
-
-#define OPCAO1 '1'
-#define OPCAO2 '2'
-#define OPCAO3 '3'
-#define OPCAO4 '4'
-#define OPCAO5 '5'
-#define OPCAO6 '6'
-#define OPCAO7 '7'
-#define OPCAO8 '8'
+#include <windows.h>
 
 void LimpaBuffer(){
     int valorLido;
@@ -23,6 +13,11 @@ void LimpaBuffer(){
 }
 
 void LimpaTela(){
+    system("cls");
+}
+
+void LimpaTelaDelay(){
+    Sleep(2000);
     system("cls");
 }
 
@@ -64,7 +59,6 @@ int isStringValida(const char *entrada) {
     return 1; 
 }
 
-
 int isNumeroValido(const char *entrada) {
     int i;
     for (i = 0; entrada[i] != '\0'; i++) {
@@ -90,7 +84,6 @@ int isDisponibilidadeMedicoValida(const char *disponibilidade) {
 
     return 1; 
 }
-
 
 int lerIdadePaciente() {
     int idade;
@@ -134,6 +127,7 @@ void tratarNomeEditar(char *nomeMedico, char *nomePaciente) {
             printf("Nome do paciente invalido. Por favor, insira apenas letras e espacos.\n");
         }
     } while (!isStringValida(nomePaciente));
+    LimpaTela();
 }
 
 void tratarNomeBuscar(char *nomeMedico, char *nomePaciente) {

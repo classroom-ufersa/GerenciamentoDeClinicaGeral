@@ -116,4 +116,13 @@ Medico *removeMedico(Medico *lista, char *nome);
 */
 void buscaPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePaciente);
 
+/**
+ * Função para liberar a memória alocada para uma lista de médicos.
+ * 
+ * Esta função percorre a lista de médicos fornecida e libera a memória alocada para cada nó da lista.
+ * 
+ * @param lista - Um ponteiro para o primeiro nó da lista de médicos.
+*/
+void liberaLista(Medico* lista);
+
 #endif // MEDICOS_H

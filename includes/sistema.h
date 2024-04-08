@@ -16,6 +16,15 @@ void LimpaBuffer();
 void LimpaTela();
 
 /**
+ * Função para limpar a tela com delay.
+ * 
+ * Esta função limpa a tela do terminal e aguarda um tempo antes de continuar a execução do programa. 
+ * Ela é útil para garantir que o usuário tenha tempo suficiente para ler as informações exibidas na 
+ * tela antes que elas sejam substituídas por novas informações.
+ */
+void LimpaTelaDelay();
+
+/**
  * Função para exibir o menu principal.
  * 
  * Esta função exibe o menu principal do sistema. O menu exibe as opções disponíveis para o usuário 

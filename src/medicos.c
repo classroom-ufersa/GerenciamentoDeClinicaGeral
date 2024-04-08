@@ -1,7 +1,6 @@
 #include "../includes/medicos.h"
 
-struct medico
-{
+struct medico{
   char nome[50];
   char especialidade[50];
   Paciente *pacientes;
@@ -49,13 +48,10 @@ Medico *cadastroPaciente(Medico *lista) {
     return lista;
 }
 
-Medico *buscaMedico(Medico *lista, char *nome)
-{
+Medico *buscaMedico(Medico *lista, char *nome){
   Medico *p;
-  for (p = lista; p != NULL; p = p->prox)
-  {
-    if (strcmp(p->nome, nome) == 0)
-    {
+  for (p = lista; p != NULL; p = p->prox){
+    if (strcmp(p->nome, nome) == 0){
       return p;
     }
   }
@@ -94,11 +90,9 @@ Medico preencheMedico() {
     return m;
 }
 
-Medico *insereOrdenado(Medico *lista, Medico m)
-{
+Medico *insereOrdenado(Medico *lista, Medico m){
   Medico *novo = (Medico *)malloc(sizeof(Medico));
-  if (novo == NULL)
-  {
+  if (novo == NULL){
     perror("Erro ao alocar memoria");
     exit(1);
   }
@@ -107,24 +101,23 @@ Medico *insereOrdenado(Medico *lista, Medico m)
   strcpy(novo->disponibilidade, m.disponibilidade);
   novo->prox = NULL;
 
-  if (lista == NULL || strcmp(lista->nome, novo->nome) > 0)
-  {
+  if (lista == NULL || strcmp(lista->nome, novo->nome) > 0){
     novo->prox = lista;
+    printf("Medico %s cadastrado com sucesso!\n", novo->nome);
     return novo;
   }
 
   Medico *ant = NULL;
   Medico *atual = lista;
 
-  while (atual != NULL && strcmp(atual->nome, m.nome) < 0)
-  {
+  while (atual != NULL && strcmp(atual->nome, m.nome) < 0){
     ant = atual;
     atual = atual->prox;
   }
 
   ant->prox = novo;
   novo->prox = atual;
-
+  printf("Medico %s cadastrado com sucesso!\n", novo->nome);
   return lista;
 }
 
@@ -137,8 +130,7 @@ void imprimeMedicos(Medico *lista)
   }
 
   Medico *atual = lista;
-  while (atual != NULL)
-  {
+  while (atual != NULL){
     printf("Medico: %s, Especialidade: %s, Disponibilidade: %s\n", atual->nome, atual->especialidade, atual->disponibilidade);
     imprimePacientes(atual->pacientes);
     atual = atual->prox;
@@ -181,7 +173,7 @@ Medico *removePacienteDoMedico(Medico *lista) {
     } while (1); 
 
     Medico *aux = buscaMedico(lista, nomeMedico);
-    if (aux == NULL) {
+    if (aux == NULL){
         printf("Medico nao encontrado\n");
         return lista;
     }
@@ -190,11 +182,9 @@ Medico *removePacienteDoMedico(Medico *lista) {
     return lista;
 }
 
-Medico *editarPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePaciente)
-{
+Medico *editarPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePaciente){
   Medico *aux = buscaMedico(lista, nomeMedico);
-  if (aux == NULL)
-  {
+  if (aux == NULL){
     printf("Medico nao encontrado\n");
     return lista;
   }
@@ -202,25 +192,20 @@ Medico *editarPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePacie
   return lista;
 }
 
-Medico *removeMedico(Medico *lista, char *nome)
-{
+Medico *removeMedico(Medico *lista, char *nome){
   Medico *ant = NULL;
   Medico *p = lista;
-  while (p != NULL && strcmp(p->nome, nome) != 0)
-  {
+  while (p != NULL && strcmp(p->nome, nome) != 0){
     ant = p;
     p = p->prox;
   }
-  if (p == NULL)
-  {
+  if (p == NULL){
     printf("Medico nao encontrado\n");
     return lista;
   }
-  if (ant == NULL)
-  {
+  if (ant == NULL){
     lista = p->prox;
-  }else
-  {
+  }else{
     ant->prox = p->prox;
   }
   free(p);
@@ -228,23 +213,19 @@ Medico *removeMedico(Medico *lista, char *nome)
   return lista;
 }
 
-void buscaPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePaciente)
-{
+void buscaPacientePorMedico(Medico *lista, char *nomeMedico, char *nomePaciente){
   Medico *aux = buscaMedico(lista, nomeMedico);
-  if (aux == NULL)
-  {
+  if (aux == NULL){
     printf("Medico nao encontrado\n");
     return;
   }
   Paciente *p = buscaPaciente(aux->pacientes, nomePaciente);
-  if (p == NULL)
-  {
+  if (p == NULL){
     printf("Paciente nao encontrado\n");
     return;
   }
   imprimePacientes(p);
 }
-
 
 void escreveArquivo(Medico *lista, char *localDoArquivo){
   FILE *arquivo = fopen(localDoArquivo, "wt");
@@ -266,34 +247,49 @@ void escreveArquivo(Medico *lista, char *localDoArquivo){
   fclose(arquivo);
 }
 
-Medico *lerArquivo(char *localDoArquivo, Medico *lista)
-{
+Medico *lerArquivo(char *localDoArquivo, Medico *lista){
   FILE *arquivo = fopen(localDoArquivo, "r");
-  if (arquivo == NULL)
-  {
+  if (arquivo == NULL){
     perror("Erro ao abrir o arquivo");
     exit(1);
   }
   char linha[200];
   Medico m;
   Paciente p;
-  while (fgets(linha, 200, arquivo) != NULL)
-  {
+  while (fgets(linha, 200, arquivo) != NULL){
     Medico *aux;
-    if (strstr(linha, "Medico:") != NULL)
-    {
+    if (strstr(linha, "Medico:") != NULL){
       sscanf(linha, "Medico:%[^\t]\t%[^\t]\t%[^\n]", m.nome, m.especialidade, m.disponibilidade);
       m.prox = NULL;
       m.pacientes = NULL;
       lista = insereOrdenado(lista, m);
       aux = buscaMedico(lista, m.nome);
     }
-    else
-    {
+    else{
       sscanf(linha, "Paciente:%[^\t]%d\t%[^\n]", p.nome, &p.idade, p.doenca);
       aux->pacientes = inserePacienteOrdenado(aux->pacientes, p);
     }
   }
   fclose(arquivo);
   return lista;
+}
+
+void liberaLista(Medico* lista) {
+  Medico* medicoAtual = lista;
+  Medico* proximoMedico;
+
+  while (medicoAtual != NULL) {
+    Paciente* pacienteAtual = medicoAtual->pacientes;
+    Paciente* proximoPaciente;
+
+    while (pacienteAtual != NULL) {
+      proximoPaciente = pacienteAtual->prox;
+      free(pacienteAtual);
+      pacienteAtual = proximoPaciente;
+    }
+
+    proximoMedico = medicoAtual->prox;
+    free(medicoAtual);
+    medicoAtual = proximoMedico;
+  }
 }

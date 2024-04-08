@@ -9,6 +9,7 @@ int main(void)
     strcpy(localDoArquivo, "dados.txt");
     Medico *listaMedicos = NULL;
     listaMedicos = lerArquivo(localDoArquivo, listaMedicos);
+    LimpaTela();
     Medico m;
     do{
         menu();
@@ -19,34 +20,37 @@ int main(void)
                 m = preencheMedico();
                 listaMedicos = insereOrdenado(listaMedicos, m);
                 escreveArquivo(listaMedicos, localDoArquivo);
-                LimpaTela();
+                LimpaTelaDelay();
                 break;
             case 2:
                 tratarNomeRemover(nomeMedico);
                 listaMedicos = removeMedico(listaMedicos, nomeMedico);
                 escreveArquivo(listaMedicos, localDoArquivo);
-                LimpaTela();
+                LimpaTelaDelay();
                 break;
             case 3:
                 listaMedicos = cadastroPaciente(listaMedicos);
                 escreveArquivo(listaMedicos, localDoArquivo);
-                LimpaTela();
+                LimpaTelaDelay();
                 break;
             case 4:
                 removePacienteDoMedico(listaMedicos);
                 escreveArquivo(listaMedicos, localDoArquivo);
-                LimpaTela();
+                LimpaTelaDelay();
                 break;
             case 5:
+                LimpaTela();
                 imprimeMedicos(listaMedicos);
                 break;
             case 6:
+                LimpaTela();
                 tratarNomeEditar(nomeMedico, p.nome);
                 listaMedicos = editarPacientePorMedico(listaMedicos, nomeMedico, p.nome);
                 escreveArquivo(listaMedicos, localDoArquivo);
-                LimpaTela();
+                LimpaTelaDelay();
                 break;
             case 7:
+                LimpaTela();
                 tratarNomeBuscar(nomeMedico, p.nome);
                 buscaPacientePorMedico(listaMedicos, nomeMedico, p.nome);
                 break;
@@ -56,7 +60,6 @@ int main(void)
         }
     }while(opc != 8); 
 
-
-
+    liberaLista(listaMedicos);
     return 0;
 }
